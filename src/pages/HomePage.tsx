@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { customerApi } from '../api/client';
-import type { Booking, Category } from '../api/types';
+import type { AssistantAvailabilitySummary, Booking, Category } from '../api/types';
 import { bookingNextStep, BOOKING_STATUS_LABEL, DURATION_OPTIONS } from '../api/types';
+import { AssistantAvailabilityCard } from '../components/AssistantAvailabilityCard';
 import { NetworkErrorView, showError } from '../components/NetworkError';
 import { HomeSkeleton } from '../components/Skeleton';
+import { getCoords } from '../utils/geolocation';
 
 export function HomePage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeBooking, setActiveBooking] = useState<Booking | null>(null);
   const [notifCount, setNotifCount] = useState(0);
+  const [availability, setAvailability] = useState<AssistantAvailabilitySummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -18,10 +21,12 @@ export function HomePage() {
     setLoading(true);
     setError('');
     try {
-      const [cats, upcoming, notifs] = await Promise.all([
+      const { lat, lng } = await getCoords();
+      const [cats, upcoming, notifs, summary] = await Promise.all([
         customerApi.getCategories(),
         customerApi.getBookings('upcoming'),
         customerApi.getNotifications(),
+        customerApi.getAssistantAvailabilitySummary(lat, lng).catch(() => null),
       ]);
       setCategories(cats);
       const active = upcoming.find((b) =>
@@ -29,6 +34,7 @@ export function HomePage() {
       );
       setActiveBooking(active ?? null);
       setNotifCount(notifs.filter((n) => !n.readAt).length);
+      setAvailability(summary);
     } catch (err) {
       setError(showError(err));
     } finally {
@@ -77,6 +83,8 @@ export function HomePage() {
       </div>
 
       <div className="page">
+        {availability && <AssistantAvailabilityCard data={availability} />}
+
         {activeBooking && (
           <div className="card card-click" onClick={() => openBooking(activeBooking)}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

@@ -30,6 +30,36 @@ export interface Address {
   isDefault: boolean;
 }
 
+export interface GeocodeConfig {
+  googleMapsEnabled?: boolean;
+  autocompleteEnabled?: boolean;
+  enabled?: boolean;
+}
+
+export interface GeocodeSuggestion {
+  placeId: string;
+  description: string;
+  mainText: string;
+  secondaryText: string;
+}
+
+export interface GeocodePlaceResult {
+  formattedAddress: string;
+  label: string;
+  locality: string;
+  lat: number;
+  lng: number;
+  placeId?: string;
+}
+
+export interface AssistantAvailabilitySummary {
+  nearbyAvailable: number;
+  matchRadiusKm: number;
+  areaLabel: string;
+  zones: BookingZoneAvailability[];
+  message: string;
+}
+
 export interface BookingZoneAvailability {
   label: string;
   count: number;

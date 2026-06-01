@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { customerApi } from '../api/client';
-import type { Address, Category } from '../api/types';
+import type { Address, Category, GeocodePlaceResult } from '../api/types';
 import { DURATION_OPTIONS } from '../api/types';
+import { AddressSearch } from '../components/AddressSearch';
 import { showError } from '../components/NetworkError';
-import { MapsPlaceholder } from '../components/MapsPlaceholder';
+import { LocationPreview } from '../components/LocationPreview';
 import { PageLoader } from '../components/PageLoader';
+import { getCoords } from '../utils/geolocation';
 
 const STEPS = ['Service', 'Duration', 'Location', 'Confirm'];
 const GPS_ID = 'gps-current';
+const SEARCH_ID = 'search-picked';
 
 type BookingLocation = {
   id: string;
@@ -18,20 +21,6 @@ type BookingLocation = {
   lng: number;
   isCurrentLocation?: boolean;
 };
-
-function getCoords(): Promise<{ lat: number; lng: number }> {
-  return new Promise((resolve) => {
-    if (!navigator.geolocation) {
-      resolve({ lat: 19.076, lng: 72.8777 });
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      (p) => resolve({ lat: p.coords.latitude, lng: p.coords.longitude }),
-      () => resolve({ lat: 19.076, lng: 72.8777 }),
-      { enableHighAccuracy: true, timeout: 12000 },
-    );
-  });
-}
 
 async function resolveGpsLocation(): Promise<BookingLocation> {
   const { lat, lng } = await getCoords();
@@ -64,6 +53,16 @@ function addressToLocation(a: Address): BookingLocation {
     formattedAddress: a.formattedAddress,
     lat: a.lat,
     lng: a.lng,
+  };
+}
+
+function placeToLocation(place: GeocodePlaceResult): BookingLocation {
+  return {
+    id: SEARCH_ID,
+    label: place.label,
+    formattedAddress: place.formattedAddress,
+    lat: place.lat,
+    lng: place.lng,
   };
 }
 
@@ -112,6 +111,10 @@ export function BookingWizardPage() {
     } finally {
       setLocationLoading(false);
     }
+  };
+
+  const pickSearchResult = (place: GeocodePlaceResult) => {
+    setLocation(placeToLocation(place));
   };
 
   const submit = async () => {
@@ -200,7 +203,20 @@ export function BookingWizardPage() {
       {step === 2 && location && (
         <>
           <p className="page-sub">Where should the assistant meet you?</p>
-          <MapsPlaceholder title={location.label} subtitle={location.formattedAddress} />
+
+          <LocationPreview
+            lat={location.lat}
+            lng={location.lng}
+            title={location.label}
+            subtitle={location.formattedAddress}
+          />
+
+          <AddressSearch
+            lat={location.lat}
+            lng={location.lng}
+            onSelect={pickSearchResult}
+          />
+
           <button type="button" className="btn btn-outline btn-sm" style={{ marginBottom: 12 }} onClick={refreshGps}>
             ↻ Refresh current location
           </button>

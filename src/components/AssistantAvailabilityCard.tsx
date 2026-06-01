@@ -1,6 +1,8 @@
-import type { BookingSearchAvailability } from '../api/types';
+import type { AssistantAvailabilitySummary, BookingSearchAvailability } from '../api/types';
 
-export function AssistantAvailabilityCard({ data }: { data: BookingSearchAvailability }) {
+type AvailabilityData = BookingSearchAvailability | AssistantAvailabilitySummary;
+
+export function AssistantAvailabilityCard({ data }: { data: AvailabilityData }) {
   return (
     <div className="card availability-card">
       <div className="availability-card-head">
@@ -24,7 +26,7 @@ export function AssistantAvailabilityCard({ data }: { data: BookingSearchAvailab
           ))}
         </div>
       )}
-      {data.notifiedCount > 0 && (
+      {'notifiedCount' in data && data.notifiedCount > 0 && (
         <p className="availability-notified">Notified {data.notifiedCount} nearby assistant(s)…</p>
       )}
     </div>

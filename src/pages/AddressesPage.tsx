@@ -1,25 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { customerApi } from '../api/client';
-import type { Address } from '../api/types';
+import type { Address, GeocodePlaceResult } from '../api/types';
+import { AddressSearch } from '../components/AddressSearch';
 import { NetworkErrorView, showError } from '../components/NetworkError';
 import { ListSkeleton } from '../components/Skeleton';
-import { MapsPlaceholder } from '../components/MapsPlaceholder';
+import { LocationPreview } from '../components/LocationPreview';
 import { EmptyState } from '../components/EmptyState';
-
-function getCoords(): Promise<{ lat: number; lng: number }> {
-  return new Promise((resolve) => {
-    if (!navigator.geolocation) {
-      resolve({ lat: 19.076, lng: 72.8777 });
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      (p) => resolve({ lat: p.coords.latitude, lng: p.coords.longitude }),
-      () => resolve({ lat: 19.076, lng: 72.8777 }),
-      { enableHighAccuracy: true, timeout: 12000 },
-    );
-  });
-}
+import { getCoords } from '../utils/geolocation';
 
 export function AddressesPage() {
   const [addresses, setAddresses] = useState<Address[]>([]);
@@ -48,6 +36,12 @@ export function AddressesPage() {
     load();
   }, []);
 
+  const applyPlace = (place: GeocodePlaceResult) => {
+    setCoords({ lat: place.lat, lng: place.lng });
+    setFormatted(place.formattedAddress);
+    if (!label.trim()) setLabel(place.label);
+  };
+
   const openForm = async () => {
     setShowForm(true);
     setLabel('');
@@ -57,10 +51,24 @@ export function AddressesPage() {
       const { lat, lng } = await getCoords();
       setCoords({ lat, lng });
       const geo = await customerApi.reverseGeocode(lat, lng);
-      setFormatted(geo.formattedAddress);
+      applyPlace(geo);
     } catch {
       const { lat, lng } = await getCoords();
       setCoords({ lat, lng });
+    } finally {
+      setGeoLoading(false);
+    }
+  };
+
+  const refreshGps = async () => {
+    setGeoLoading(true);
+    try {
+      const { lat, lng } = await getCoords();
+      setCoords({ lat, lng });
+      const geo = await customerApi.reverseGeocode(lat, lng);
+      applyPlace(geo);
+    } catch {
+      /* keep current values */
     } finally {
       setGeoLoading(false);
     }
@@ -111,10 +119,35 @@ export function AddressesPage() {
 
       {showForm && (
         <form onSubmit={add} className="card animate-in">
-          <MapsPlaceholder
-            title="Your location"
-            subtitle={geoLoading ? 'Detecting GPS…' : 'Address pre-filled from GPS — edit if needed'}
+          {coords && !geoLoading && (
+            <LocationPreview
+              lat={coords.lat}
+              lng={coords.lng}
+              title={label || 'Selected location'}
+              subtitle={formatted}
+            />
+          )}
+          {geoLoading && (
+            <p className="address-search-hint" style={{ marginBottom: 12 }}>Detecting your location…</p>
+          )}
+
+          <AddressSearch
+            lat={coords?.lat}
+            lng={coords?.lng}
+            disabled={geoLoading}
+            onSelect={applyPlace}
           />
+
+          <button
+            type="button"
+            className="btn btn-outline btn-sm"
+            style={{ marginBottom: 12 }}
+            disabled={geoLoading}
+            onClick={refreshGps}
+          >
+            ↻ Use current GPS location
+          </button>
+
           <label className="field">
             <span>Label</span>
             <input value={label} onChange={(e) => setLabel(e.target.value)} placeholder="Home, Work…" required />

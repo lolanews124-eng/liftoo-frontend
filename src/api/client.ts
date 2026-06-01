@@ -170,9 +170,27 @@ export const customerApi = {
 
   getAddresses: () => api<import('./types').Address[]>('/users/addresses'),
 
+  getGeocodeConfig: () => api<import('./types').GeocodeConfig>('/geocode/config'),
+
   reverseGeocode: (lat: number, lng: number) =>
-    api<{ formattedAddress: string; locality: string; label: string; lat: number; lng: number }>(
-      `/geocode/reverse?lat=${lat}&lng=${lng}`,
+    api<import('./types').GeocodePlaceResult>(`/geocode/reverse?lat=${lat}&lng=${lng}`),
+
+  geocodeAutocomplete: (q: string, lat?: number, lng?: number) => {
+    const params = new URLSearchParams({ q });
+    if (lat != null) params.set('lat', String(lat));
+    if (lng != null) params.set('lng', String(lng));
+    return api<import('./types').GeocodeSuggestion[]>(`/geocode/autocomplete?${params}`);
+  },
+
+  geocodePlace: (placeId: string) =>
+    api<import('./types').GeocodePlaceResult>(`/geocode/place?placeId=${encodeURIComponent(placeId)}`),
+
+  geocodeForward: (address: string) =>
+    api<import('./types').GeocodePlaceResult>(`/geocode/forward?address=${encodeURIComponent(address)}`),
+
+  getAssistantAvailabilitySummary: (lat: number, lng: number) =>
+    api<import('./types').AssistantAvailabilitySummary>(
+      `/assistants/availability-summary?lat=${lat}&lng=${lng}`,
     ),
 
   createAddress: (data: Omit<import('./types').Address, 'id'>) =>
