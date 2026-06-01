@@ -135,7 +135,7 @@ export function OtpPage() {
 
             maxLength={6}
 
-            placeholder="123456"
+            placeholder="Enter code"
 
             value={otp}
 
