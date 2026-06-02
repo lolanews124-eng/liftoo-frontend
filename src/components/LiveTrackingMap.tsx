@@ -51,8 +51,8 @@ export function LiveTrackingMap({ tracking }: { tracking: BookingTracking }) {
           <line key={`h${i}`} x1={0} y1={(height / 4) * i} x2={width} y2={(height / 4) * i} stroke="#fff" strokeOpacity={0.5} />
         ))}
         <path d={route} fill="none" stroke="rgba(249,115,22,0.45)" strokeWidth={4} strokeLinecap="round" />
-        <circle cx={a.x + (c.x - a.x) * progress} cy={a.y + (c.y - a.y) * progress} r={8} fill="#f97316" />
-        <circle cx={a.x} cy={a.y} r={18} fill="#fff" stroke="#f97316" strokeWidth={3} />
+        <circle cx={a.x + (c.x - a.x) * progress} cy={a.y + (c.y - a.y) * progress} r={8} fill="#ff0064" />
+        <circle cx={a.x} cy={a.y} r={18} fill="#fff" stroke="#ff0064" strokeWidth={3} />
         <text x={a.x} y={a.y + 5} textAnchor="middle" fontSize={14}>🛵</text>
         <circle cx={c.x} cy={c.y} r={18} fill="#fff" stroke="#16a34a" strokeWidth={3} />
         <text x={c.x} y={c.y + 5} textAnchor="middle" fontSize={14}>📍</text>

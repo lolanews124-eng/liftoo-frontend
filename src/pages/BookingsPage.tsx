@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { customerApi } from '../api/client';
 import type { Booking } from '../api/types';
-import { bookingNextStep, BOOKING_STATUS_LABEL } from '../api/types';
+import { BOOKING_STATUS_LABEL, isPaymentPending } from '../api/types';
+import { BookingDetailModal } from '../components/BookingDetailModal';
 import { NetworkErrorView, showError } from '../components/NetworkError';
 import { ListSkeleton } from '../components/Skeleton';
 import { EmptyState } from '../components/EmptyState';
@@ -14,6 +15,7 @@ export function BookingsPage() {
   const [data, setData] = useState<Record<string, Booking[]>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState<Record<string, boolean>>({});
+  const [selected, setSelected] = useState<Booking | null>(null);
   const navigate = useNavigate();
 
   const load = async (status: string) => {
@@ -33,14 +35,6 @@ export function BookingsPage() {
   useEffect(() => {
     TABS.forEach(load);
   }, []);
-
-  const open = (b: Booking) => {
-    const step = bookingNextStep(b);
-    if (step === 'pay') navigate(`/payment/${b.id}`);
-    else if (step === 'rate_service') navigate(`/review/service/${b.id}`);
-    else if (step === 'rate_app') navigate(`/review/app/${b.id}`);
-    else navigate(`/booking/${b.id}`);
-  };
 
   const list = data[tab];
   const err = errors[tab];
@@ -71,7 +65,7 @@ export function BookingsPage() {
       {!err && !isLoading && list && list.length > 0 && (
         <div className="bookings-grid">
           {list.map((b) => (
-            <div key={b.id} className="card card-click" onClick={() => open(b)}>
+            <div key={b.id} className="card card-click" onClick={() => setSelected(b)}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <strong>{b.category?.name ?? 'Booking'}</strong>
                 <span className="badge">{BOOKING_STATUS_LABEL[b.status] ?? b.status}</span>
@@ -84,10 +78,15 @@ export function BookingsPage() {
               {b.assistant?.name && (
                 <p style={{ margin: '8px 0 0', fontSize: 13 }}>Assistant: {b.assistant.name}</p>
               )}
+              {isPaymentPending(b) && (
+                <p className="pay-badge">Payment pending</p>
+              )}
             </div>
           ))}
         </div>
       )}
+
+      {selected && <BookingDetailModal booking={selected} onClose={() => setSelected(null)} />}
     </div>
   );
 }

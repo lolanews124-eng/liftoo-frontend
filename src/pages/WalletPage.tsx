@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { customerApi } from '../api/client';
 import type { WalletData } from '../api/types';
 import { useAuth } from '../auth/AuthContext';
+import { AddMoneyModal } from '../components/AddMoneyModal';
 import { NetworkErrorView, showError } from '../components/NetworkError';
 import { ListSkeleton } from '../components/Skeleton';
 import { EmptyState } from '../components/EmptyState';
@@ -10,6 +11,7 @@ export function WalletPage() {
   const [wallet, setWallet] = useState<WalletData | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [showAdd, setShowAdd] = useState(false);
   const { refreshUser } = useAuth();
 
   const load = async () => {
@@ -29,16 +31,6 @@ export function WalletPage() {
     load();
   }, []);
 
-  const topUp = async () => {
-    try {
-      await customerApi.topUpWallet(500);
-      await refreshUser();
-      load();
-    } catch (err) {
-      alert(showError(err));
-    }
-  };
-
   if (loading) return <ListSkeleton count={3} />;
   if (error) return <NetworkErrorView message={error} onRetry={load} />;
 
@@ -47,20 +39,13 @@ export function WalletPage() {
       <h1 className="page-title">Wallet</h1>
       <div className="wallet-layout">
         <div>
-          <div
-            className="card"
-            style={{
-              background: 'linear-gradient(135deg, #1a1a1a, #2a2a2a)',
-              color: 'white',
-              padding: 24,
-            }}
-          >
+          <div className="card wallet-balance-card">
             <p style={{ margin: 0, opacity: 0.8, fontSize: 14 }}>Available balance</p>
             <p style={{ margin: '8px 0 0', fontSize: 36, fontWeight: 900 }}>₹{wallet?.balance ?? 0}</p>
           </div>
 
-          <button type="button" className="btn btn-outline btn-inline-desktop" onClick={topUp} style={{ marginTop: 16 }}>
-            + Add ₹500 (demo top-up)
+          <button type="button" className="btn btn-primary btn-inline-desktop" style={{ marginTop: 16 }} onClick={() => setShowAdd(true)}>
+            + Add money
           </button>
         </div>
 
@@ -84,6 +69,18 @@ export function WalletPage() {
           ))}
         </div>
       </div>
+
+      {showAdd && wallet && (
+        <AddMoneyModal
+          currentBalance={wallet.balance}
+          onClose={() => setShowAdd(false)}
+          onSuccess={() => {
+            setShowAdd(false);
+            refreshUser();
+            load();
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { customerApi, isLoggedIn } from '../api/client';
 import type { Booking } from '../api/types';
-import { bookingNextStep, BOOKING_STATUS_LABEL } from '../api/types';
+import { bookingNextStep, BOOKING_STATUS_LABEL, isBookingPaid, isPaymentPending } from '../api/types';
 import { NetworkErrorView, showError } from '../components/NetworkError';
 import { AssistantAvailabilityCard } from '../components/AssistantAvailabilityCard';
 import { LiveTrackingMap } from '../components/LiveTrackingMap';
@@ -47,9 +47,12 @@ export function LiveBookingPage() {
   useEffect(() => {
     load();
     if (id) joinBooking(id);
-    const poll = setInterval(load, 8000);
+    const poll = setInterval(() => {
+      if (booking && (isBookingPaid(booking) || booking.status === 'cancelled')) return;
+      load();
+    }, 8000);
     return () => clearInterval(poll);
-  }, [id]);
+  }, [id, booking?.status, booking?.payment?.status]);
 
   const cancel = async () => {
     if (!id || !confirm('Cancel this booking?')) return;
@@ -86,6 +89,18 @@ export function LiveBookingPage() {
           </button>
         )}
       </div>
+
+      {isPaymentPending(booking) && (
+        <div className="card payment-due-card" style={{ marginBottom: 16 }}>
+          <strong>Service complete — payment due</strong>
+          <p style={{ margin: '8px 0', fontSize: 14, color: 'var(--muted)' }}>
+            Pay ₹{booking.totalAmount} to finish this booking.
+          </p>
+          <button type="button" className="btn btn-primary" onClick={() => navigate(`/payment/${booking.id}`)}>
+            Pay now
+          </button>
+        </div>
+      )}
 
       <div className="live-booking-grid">
         {booking.tracking && ['assigned', 'arriving', 'started'].includes(booking.status) && (

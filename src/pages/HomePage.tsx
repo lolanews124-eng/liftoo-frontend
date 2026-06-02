@@ -1,40 +1,44 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { customerApi } from '../api/client';
-import type { AssistantAvailabilitySummary, Booking, Category } from '../api/types';
-import { bookingNextStep, BOOKING_STATUS_LABEL, DURATION_OPTIONS } from '../api/types';
-import { AssistantAvailabilityCard } from '../components/AssistantAvailabilityCard';
+import type { Booking, Category } from '../api/types';
+import { bookingNextStep, BOOKING_STATUS_LABEL } from '../api/types';
+import { useAuth } from '../auth/AuthContext';
+import { BookingDetailModal } from '../components/BookingDetailModal';
+import { HeroCarousel } from '../components/HeroCarousel';
 import { NetworkErrorView, showError } from '../components/NetworkError';
 import { HomeSkeleton } from '../components/Skeleton';
 import { getCoords } from '../utils/geolocation';
 
 export function HomePage() {
+  const { user } = useAuth();
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeBooking, setActiveBooking] = useState<Booking | null>(null);
+  const [pendingPay, setPendingPay] = useState<Booking | null>(null);
   const [notifCount, setNotifCount] = useState(0);
-  const [availability, setAvailability] = useState<AssistantAvailabilitySummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [detailBooking, setDetailBooking] = useState<Booking | null>(null);
   const navigate = useNavigate();
 
   const load = async () => {
     setLoading(true);
     setError('');
     try {
-      const { lat, lng } = await getCoords();
-      const [cats, upcoming, notifs, summary] = await Promise.all([
+      const [cats, upcoming, completed, notifs] = await Promise.all([
         customerApi.getCategories(),
         customerApi.getBookings('upcoming'),
+        customerApi.getBookings('completed'),
         customerApi.getNotifications(),
-        customerApi.getAssistantAvailabilitySummary(lat, lng).catch(() => null),
       ]);
       setCategories(cats);
       const active = upcoming.find((b) =>
         ['pending', 'searching', 'assigned', 'arriving', 'started'].includes(b.status),
       );
       setActiveBooking(active ?? null);
+      const payDue = completed.find((b) => bookingNextStep(b) === 'pay');
+      setPendingPay(payDue ?? null);
       setNotifCount(notifs.filter((n) => !n.readAt).length);
-      setAvailability(summary);
     } catch (err) {
       setError(showError(err));
     } finally {
@@ -44,6 +48,7 @@ export function HomePage() {
 
   useEffect(() => {
     load();
+    getCoords().catch(() => null);
   }, []);
 
   const openBooking = (b: Booking) => {
@@ -52,7 +57,7 @@ export function HomePage() {
     else if (step === 'pay') navigate(`/payment/${b.id}`);
     else if (step === 'rate_service') navigate(`/review/service/${b.id}`);
     else if (step === 'rate_app') navigate(`/review/app/${b.id}`);
-    else navigate(`/booking/${b.id}`);
+    else setDetailBooking(b);
   };
 
   if (loading) return <HomeSkeleton />;
@@ -61,29 +66,37 @@ export function HomePage() {
     return <NetworkErrorView message={error} onRetry={load} />;
   }
 
+  const firstName = user?.name?.split(' ')[0] ?? 'there';
+
   return (
     <>
-      <div className="hero">
-        <div className="hero-inner">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <div>
-              <h1>Book your shopping assistant</h1>
-              <p>Malls, markets & exhibitions — we've got you covered.</p>
-            </div>
-            <Link to="/notifications" className="notif-bell" style={{ position: 'relative', fontSize: 24 }}>
-              🔔
-              {notifCount > 0 && (
-                <span className="notif-badge">
-                  {notifCount}
-                </span>
-              )}
-            </Link>
-          </div>
+      <div className="home-top-bar">
+        <div>
+          <p className="home-greeting">Hi, {firstName} 👋</p>
+        </div>
+        <div className="home-top-actions">
+          <Link to="/wallet" className="wallet-chip">
+            ₹{user?.walletBalance ?? 0}
+          </Link>
+          <Link to="/notifications" className="notif-bell">
+            🔔
+            {notifCount > 0 && <span className="notif-badge">{notifCount > 9 ? '9+' : notifCount}</span>}
+          </Link>
         </div>
       </div>
 
+      <HeroCarousel />
+
       <div className="page">
-        {availability && <AssistantAvailabilityCard data={availability} />}
+        {pendingPay && (
+          <div className="card card-click payment-due-card" onClick={() => navigate(`/payment/${pendingPay.id}`)}>
+            <strong>Payment due</strong>
+            <p style={{ margin: '6px 0 0', fontSize: 14, color: 'var(--muted)' }}>
+              {pendingPay.venueName} · ₹{pendingPay.totalAmount}
+            </p>
+            <span className="link-text">Pay now →</span>
+          </div>
+        )}
 
         {activeBooking && (
           <div className="card card-click" onClick={() => openBooking(activeBooking)}>
@@ -96,12 +109,6 @@ export function HomePage() {
             </p>
           </div>
         )}
-
-        <div className="home-cta-row">
-          <Link to="/booking/new" className="btn btn-primary" style={{ textAlign: 'center' }}>
-            Book assistant now
-          </Link>
-        </div>
 
         <h2 style={{ fontSize: 18, fontWeight: 800, margin: '0 0 12px' }}>Services</h2>
         <div className="category-grid">
@@ -122,11 +129,11 @@ export function HomePage() {
             </Link>
           ))}
         </div>
-
-        <p style={{ marginTop: 24, fontSize: 12, color: 'var(--muted)', textAlign: 'center' }}>
-          Duration options: {DURATION_OPTIONS.map((d) => d.label).join(' · ')}
-        </p>
       </div>
+
+      {detailBooking && (
+        <BookingDetailModal booking={detailBooking} onClose={() => setDetailBooking(null)} />
+      )}
     </>
   );
 }

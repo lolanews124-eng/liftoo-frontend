@@ -110,7 +110,16 @@ export interface Booking {
   assistant?: { id: string; name?: string; phone?: string; assistantProfile?: { rating?: number } } | null;
   customer?: { id: string; name?: string; phone?: string };
   statusHistory?: { status: string; note?: string; createdAt: string }[];
-  payment?: { method: string; status: string; amount: number } | null;
+  paymentConfirmOtp?: string | null;
+  assistantEarningAmount?: number;
+  companyShareAmount?: number;
+  payment?: {
+    method?: string;
+    status: string;
+    amount: number;
+    cashCollectedAt?: string | null;
+    paidAt?: string | null;
+  } | null;
   rating?: { stars: number; comment?: string } | null;
   appReview?: { stars: number } | null;
   searchAvailability?: BookingSearchAvailability | null;
@@ -180,13 +189,28 @@ export const BOOKING_STATUS_LABEL: Record<string, string> = {
 };
 
 export function isBookingPaid(b: Booking): boolean {
-  if (!b.payment) return false;
-  return b.payment.status === 'completed';
+  const p = b.payment;
+  if (!p) return false;
+  if (p.status === 'completed') return true;
+  if (p.status !== 'pending' && p.paidAt) return true;
+  return false;
+}
+
+export function isPaymentPending(b: Booking): boolean {
+  if (b.status !== 'completed') return false;
+  if (!b.payment) return true;
+  return !isBookingPaid(b);
+}
+
+export function isCashAwaitingConfirm(b: Booking): boolean {
+  const p = b.payment;
+  if (!p || p.method !== 'cash') return false;
+  return !!p.cashCollectedAt && !isBookingPaid(b);
 }
 
 export function bookingNextStep(b: Booking): string | null {
   if (['pending', 'searching', 'assigned', 'arriving', 'started'].includes(b.status)) return 'track';
-  if (b.status === 'completed' && !isBookingPaid(b)) return 'pay';
+  if (isPaymentPending(b)) return 'pay';
   if (b.status === 'completed' && isBookingPaid(b) && !b.rating) return 'rate_service';
   if (b.status === 'completed' && b.rating && !b.appReview) return 'rate_app';
   return null;

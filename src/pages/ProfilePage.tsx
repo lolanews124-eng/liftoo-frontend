@@ -1,16 +1,38 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { customerApi } from '../api/client';
 import { AvatarPicker } from '../components/AvatarPicker';
-
+import { showError } from '../components/NetworkError';
 import { useAuth } from '../auth/AuthContext';
 
 export function ProfilePage() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [switching, setSwitching] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate('/auth/login');
+  };
+
+  const switchToAssistant = async () => {
+    if (!user?.roles?.includes('assistant')) {
+      alert('Assistant mode is available in the Liftoo mobile app. Download the app to work as an assistant.');
+      return;
+    }
+    setSwitching(true);
+    try {
+      const upcoming = await customerApi.getBookings('upcoming');
+      if (upcoming.length > 0) {
+        alert('You have an active booking. Complete or cancel it before switching to assistant mode.');
+        return;
+      }
+      alert('Assistant mode works in the Liftoo mobile app. Open the app and switch role from your profile.');
+    } catch (err) {
+      alert(showError(err));
+    } finally {
+      setSwitching(false);
+    }
   };
 
   return (
@@ -37,7 +59,13 @@ export function ProfilePage() {
         ))}
       </div>
 
-      <button type="button" className="btn btn-outline" style={{ marginTop: 16, color: 'var(--danger)', borderColor: 'var(--danger)' }} onClick={handleLogout}>
+      {user?.roles?.includes('assistant') && (
+        <button type="button" className="btn btn-outline" style={{ marginTop: 16 }} onClick={switchToAssistant} disabled={switching}>
+          Switch to assistant mode
+        </button>
+      )}
+
+      <button type="button" className="btn btn-outline" style={{ marginTop: 12, color: 'var(--danger)', borderColor: 'var(--danger)' }} onClick={handleLogout}>
         Log out
       </button>
     </div>

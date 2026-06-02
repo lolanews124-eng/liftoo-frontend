@@ -1,8 +1,11 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { isLoggedIn } from '../api/client';
+import { InAppNotificationBanner } from '../components/InAppNotificationBanner';
+import { useRealtimeNotifications } from '../hooks/useRealtimeNotifications';
 
 function NavIcon({ name, active }: { name: string; active: boolean }) {
-  const c = active ? '#f97316' : '#9ca3af';
+  const c = active ? '#ff0064' : '#9ca3af';
   switch (name) {
     case 'home':
       return (
@@ -88,10 +91,13 @@ function NavItems({ variant }: { variant: 'bottom' | 'sidebar' }) {
 
 export function CustomerLayout() {
   const offline = useOffline();
+  const token = isLoggedIn() ? localStorage.getItem('access_token') : null;
+  useRealtimeNotifications(token);
 
   return (
     <div className="app-shell">
       {offline && <div className="offline-banner">No internet connection</div>}
+      <InAppNotificationBanner />
       <div className="app-body">
         <aside className="desktop-sidebar" aria-label="Main navigation">
           <div className="sidebar-brand">

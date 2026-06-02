@@ -168,6 +168,12 @@ export const customerApi = {
       body: JSON.stringify({ method }),
     }),
 
+  confirmCashPayment: (id: string, otp: string) =>
+    api<{ nextStep?: string; booking?: import('./types').Booking }>(`/bookings/${id}/cash/confirm`, {
+      method: 'POST',
+      body: JSON.stringify({ otp }),
+    }),
+
   getAddresses: () => api<import('./types').Address[]>('/users/addresses'),
 
   getGeocodeConfig: () => api<import('./types').GeocodeConfig>('/geocode/config'),
@@ -203,8 +209,11 @@ export const customerApi = {
 
   getWallet: () => api<import('./types').WalletData>('/wallet'),
 
-  topUpWallet: (amount: number) =>
-    api('/wallet/top-up', { method: 'POST', body: JSON.stringify({ amount }) }),
+  topUpWallet: (amount: number, method: 'upi' | 'card' = 'upi') =>
+    api<{ balance: number }>('/wallet/top-up', {
+      method: 'POST',
+      body: JSON.stringify({ amount, method }),
+    }),
 
   getReferrals: () => api<import('./types').ReferralData>('/referrals'),
 
