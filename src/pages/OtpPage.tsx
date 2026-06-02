@@ -20,17 +20,14 @@ export function OtpPage() {
 
   const [error, setError] = useState('');
 
+  const pending = readPendingAuth();
+  const email = pending?.email ?? '';
+
   const [resendSec, setResendSec] = useState(30);
+  const [devOtpHint, setDevOtpHint] = useState<string | null>(pending?.devOtp ?? null);
 
   const { verifyEmailOtp, resendEmailOtp } = useAuth();
-
   const navigate = useNavigate();
-
-
-
-  const pending = readPendingAuth();
-
-  const email = pending?.email ?? '';
 
 
 
@@ -89,23 +86,15 @@ export function OtpPage() {
 
 
   const resend = async () => {
-
     if (!pending || resendSec > 0) return;
-
     try {
-
-      await resendEmailOtp(pending.email, pending.password);
-
+      const res = await resendEmailOtp(pending.email, pending.password);
+      if (res.devOtp) setDevOtpHint(res.devOtp);
       setResendSec(30);
-
       setError('');
-
     } catch (err) {
-
       setError(showError(err));
-
     }
-
   };
 
 
@@ -122,6 +111,14 @@ export function OtpPage() {
         </button>
         <h1 className="page-title">Verify your email</h1>
         <p className="page-sub">Enter the 6-digit code sent to {email}</p>
+        <p className="page-sub" style={{ fontSize: 13 }}>
+          Check your inbox and spam folder. Code expires in 5 minutes.
+        </p>
+        {devOtpHint && (
+          <div className="success-banner" style={{ marginBottom: 12 }}>
+            Dev mode — your code: <strong>{devOtpHint}</strong>
+          </div>
+        )}
         {error && <div className="error-banner">{error}</div>}
         <form onSubmit={verify}>
 

@@ -3,6 +3,16 @@ import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import { useAuth } from '../auth/AuthContext';
+import type { User } from '../api/types';
+
+function isProfileComplete(user: User) {
+  const phone = user.phone?.trim() ?? '';
+  return !!(
+    user.name?.trim() &&
+    user.emailVerified &&
+    /^[6-9]\d{9}$/.test(phone)
+  );
+}
 
 import { showError } from '../components/NetworkError';
 
@@ -10,32 +20,28 @@ import { showError } from '../components/NetworkError';
 
 const PENDING_AUTH_KEY = 'liftoo_pending_auth';
 
+export interface PendingAuth {
+  email: string;
+  password: string;
+  devOtp?: string;
+}
 
-
-export function storePendingAuth(email: string, password: string) {
-
-  sessionStorage.setItem(PENDING_AUTH_KEY, JSON.stringify({ email, password }));
-
+export function storePendingAuth(email: string, password: string, devOtp?: string) {
+  const payload: PendingAuth = { email, password };
+  if (devOtp) payload.devOtp = devOtp;
+  sessionStorage.setItem(PENDING_AUTH_KEY, JSON.stringify(payload));
 }
 
 
 
-export function readPendingAuth(): { email: string; password: string } | null {
-
+export function readPendingAuth(): PendingAuth | null {
   const raw = sessionStorage.getItem(PENDING_AUTH_KEY);
-
   if (!raw) return null;
-
   try {
-
-    return JSON.parse(raw) as { email: string; password: string };
-
+    return JSON.parse(raw) as PendingAuth;
   } catch {
-
     return null;
-
   }
-
 }
 
 
@@ -91,15 +97,19 @@ export function LoginPage() {
     setError('');
 
     try {
+      const res = await loginWithEmail(email.trim(), password);
 
-      await loginWithEmail(email.trim(), password);
+      if (res.requiresOtp === false) {
+        sessionStorage.removeItem(PENDING_AUTH_KEY);
+        if (res.user && !isProfileComplete(res.user)) navigate('/auth/setup-profile');
+        else navigate('/');
+        return;
+      }
 
-      storePendingAuth(email.trim(), password);
+      storePendingAuth(email.trim(), password, res.devOtp);
 
       const q = referralValue ? `?ref=${encodeURIComponent(referralValue)}` : '';
-
       navigate(`/auth/otp${q}`);
-
     } catch (err) {
 
       setError(showError(err));

@@ -115,13 +115,13 @@ export async function api<T>(path: string, options: RequestInit = {}, retry = tr
 
 export const customerApi = {
   loginWithEmail: (email: string, password: string) =>
-    api<{ message: string; devOtp?: string }>('/auth/login', {
+    api<import('../auth/loginTypes').LoginResponse>('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     }),
 
   resendEmailOtp: (email: string, password: string) =>
-    api<{ message: string; devOtp?: string }>('/auth/otp/resend', {
+    api<import('../auth/loginTypes').LoginResponse>('/auth/otp/resend', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     }),

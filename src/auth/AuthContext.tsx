@@ -3,6 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import { customerApi, clearTokens, setTokens, isLoggedIn } from '../api/client';
 
 import type { User } from '../api/types';
+import type { LoginResponse } from './loginTypes';
 
 
 
@@ -12,11 +13,11 @@ interface AuthContextValue {
 
   loading: boolean;
 
-  loginWithEmail: (email: string, password: string) => Promise<void>;
+  loginWithEmail: (email: string, password: string) => Promise<LoginResponse>;
 
   verifyEmailOtp: (email: string, otp: string, referralCode?: string) => Promise<User>;
 
-  resendEmailOtp: (email: string, password: string) => Promise<void>;
+  resendEmailOtp: (email: string, password: string) => Promise<LoginResponse>;
 
   completeProfile: (name: string, phone: string) => Promise<User>;
 
@@ -116,9 +117,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 
 
-  const loginWithEmail = (email: string, password: string) =>
-
-    customerApi.loginWithEmail(email, password).then(() => undefined);
+  const loginWithEmail = async (email: string, password: string) => {
+    const res = await customerApi.loginWithEmail(email, password);
+    if (res.requiresOtp === false && res.accessToken && res.refreshToken && res.user) {
+      setTokens(res.accessToken, res.refreshToken);
+      let u = res.user;
+      if (!u.roles?.includes('customer') || u.activeRole !== 'customer') {
+        const roleRes = await customerApi.setRole('customer');
+        setTokens(roleRes.accessToken, roleRes.refreshToken);
+        u = roleRes.user;
+      }
+      setUser({ ...u, profileComplete: profileComplete(u) });
+    }
+    return res;
+  };
 
 
 
@@ -151,8 +163,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 
   const resendEmailOtp = (email: string, password: string) =>
-
-    customerApi.resendEmailOtp(email, password).then(() => undefined);
+    customerApi.resendEmailOtp(email, password);
 
 
 
