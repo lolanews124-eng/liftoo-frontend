@@ -29,6 +29,7 @@ export function HomePage() {
   const [activeBooking, setActiveBooking] = useState<Booking | null>(null);
   const [pendingPay, setPendingPay] = useState<Booking | null>(null);
   const [notifCount, setNotifCount] = useState(0);
+  const [referralReward, setReferralReward] = useState(100);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [detailBooking, setDetailBooking] = useState<Booking | null>(null);
@@ -38,11 +39,12 @@ export function HomePage() {
     setLoading(true);
     setError('');
     try {
-      const [cats, upcoming, completed, notifs] = await Promise.all([
+      const [cats, upcoming, completed, notifs, referrals] = await Promise.all([
         customerApi.getCategories(),
         customerApi.getBookings('upcoming'),
         customerApi.getBookings('completed'),
         customerApi.getNotifications(),
+        customerApi.getReferrals().catch(() => null),
       ]);
       setCategories(cats);
       const active = upcoming.find((b) =>
@@ -52,6 +54,8 @@ export function HomePage() {
       const payDue = completed.find((b) => bookingNextStep(b) === 'pay');
       setPendingPay(payDue ?? null);
       setNotifCount(notifs.filter((n) => !n.readAt).length);
+      const reward = referrals?.rewardPerReferral;
+      if (typeof reward === 'number' && reward >= 0) setReferralReward(reward);
     } catch (err) {
       setError(showError(err));
     } finally {
@@ -169,6 +173,22 @@ export function HomePage() {
             </Link>
           ))}
         </div>
+      </section>
+
+      <section className="dash-section dash-referral-section">
+        <Link to="/referral" className="dash-referral-banner">
+          <span className="dash-referral-icon" aria-hidden>
+            🎁
+          </span>
+          <div className="dash-referral-text">
+            <strong>Refer &amp; earn</strong>
+            <p>Earn ₹{Math.round(referralReward)} per friend on their first booking</p>
+          </div>
+          <span className="dash-referral-amount">₹{Math.round(referralReward)}</span>
+          <span className="dash-referral-arrow" aria-hidden>
+            →
+          </span>
+        </Link>
       </section>
 
       {detailBooking && (

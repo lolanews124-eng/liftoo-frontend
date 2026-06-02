@@ -17,16 +17,20 @@ export function ReferralPage() {
       .catch((err) => setError(showError(err)));
   }, []);
 
+  const code = data?.referralCode ?? data?.code;
+  const history = data?.history ?? data?.referrals ?? [];
+  const reward = data?.rewardPerReferral ?? 100;
+
   const copy = () => {
-    if (!data?.referralCode) return;
-    navigator.clipboard.writeText(data.referralCode);
+    if (!code) return;
+    navigator.clipboard.writeText(code);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   const shareLink = () => {
-    if (!data?.referralCode) return;
-    const url = `${window.location.origin}/auth/login?ref=${data.referralCode}`;
+    if (!code) return;
+    const url = `${window.location.origin}/auth/login?ref=${code}`;
     navigator.clipboard.writeText(url);
     alert('Invite link copied!');
   };
@@ -42,9 +46,14 @@ export function ReferralPage() {
         <span />
       </div>
 
+      <div className="card" style={{ textAlign: 'center', background: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', color: '#fff' }}>
+        <p style={{ margin: 0, fontSize: 14, opacity: 0.95 }}>Refer &amp; earn</p>
+        <p style={{ margin: '8px 0 0', fontSize: 15 }}>Earn ₹{Math.round(reward)} per successful referral</p>
+      </div>
+
       <div className="card" style={{ textAlign: 'center', background: 'var(--primary-light)' }}>
         <p style={{ margin: 0, fontSize: 14 }}>Your referral code</p>
-        <p style={{ fontSize: 28, fontWeight: 900, letterSpacing: 4, margin: '12px 0' }}>{data.referralCode}</p>
+        <p style={{ fontSize: 28, fontWeight: 900, letterSpacing: 4, margin: '12px 0' }}>{code}</p>
         <button type="button" className="btn btn-primary btn-sm" onClick={copy}>
           {copied ? 'Copied!' : 'Copy code'}
         </button>
@@ -65,8 +74,8 @@ export function ReferralPage() {
       </div>
 
       <h2 style={{ fontSize: 16, fontWeight: 800 }}>History</h2>
-      {data.history?.length === 0 && <p style={{ color: 'var(--muted)' }}>No referrals yet</p>}
-      {data.history?.map((h) => (
+      {history.length === 0 && <p style={{ color: 'var(--muted)' }}>No referrals yet</p>}
+      {history.map((h) => (
         <div key={h.id} className="card" style={{ display: 'flex', justifyContent: 'space-between' }}>
           <span>{h.code}</span>
           <span className={`badge${h.status === 'completed' ? ' badge-success' : ''}`}>

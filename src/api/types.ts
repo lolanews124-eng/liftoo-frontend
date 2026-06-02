@@ -165,9 +165,12 @@ export interface ChatMessage {
 
 export interface ReferralData {
   referralCode: string;
+  code?: string;
+  rewardPerReferral?: number;
   totalReferrals: number;
   totalEarned: number;
-  history: { id: string; code: string; rewardAmount: number; status: string; createdAt: string }[];
+  referrals?: { id: string; code: string; rewardAmount: number; status: string; createdAt: string }[];
+  history?: { id: string; code: string; rewardAmount: number; status: string; createdAt: string }[];
 }
 
 export const DURATION_OPTIONS = [

@@ -1351,6 +1351,63 @@ button, input, select, textarea { font: inherit; }
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 14px;
 }
+.dash-referral-section {
+  margin-top: 8px;
+}
+.dash-referral-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(109, 40, 217, 0.25);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.dash-referral-banner:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(109, 40, 217, 0.32);
+  color: #fff;
+}
+.dash-referral-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.dash-referral-text {
+  flex: 1;
+  min-width: 0;
+}
+.dash-referral-text strong {
+  display: block;
+  font-size: 16px;
+}
+.dash-referral-text p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  opacity: 0.92;
+}
+.dash-referral-amount {
+  font-size: 18px;
+  font-weight: 900;
+  background: #fff;
+  color: #6d28d9;
+  padding: 6px 12px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+.dash-referral-arrow {
+  font-size: 18px;
+  opacity: 0.9;
+  flex-shrink: 0;
+}
 .dash-service-card {
   display: flex;
   align-items: center;
