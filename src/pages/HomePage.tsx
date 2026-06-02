@@ -10,6 +10,19 @@ import { NetworkErrorView, showError } from '../components/NetworkError';
 import { HomeSkeleton } from '../components/Skeleton';
 import { getCoords } from '../utils/geolocation';
 
+const CATEGORY_ICONS: Record<string, string> = {
+  'bag-carry': '🛍️',
+  'family-help': '👨‍👩‍👧',
+  'festival': '🎉',
+  'queue': '⏳',
+  'senior': '♿',
+};
+
+function categoryIcon(slug?: string) {
+  if (!slug) return '✨';
+  return CATEGORY_ICONS[slug] ?? '✨';
+}
+
 export function HomePage() {
   const { user } = useAuth();
   const [categories, setCategories] = useState<Category[]>([]);
@@ -69,71 +82,98 @@ export function HomePage() {
   const firstName = user?.name?.split(' ')[0] ?? 'there';
 
   return (
-    <>
-      <div className="home-top-bar">
-        <div>
-          <p className="home-greeting">Hi, {firstName} 👋</p>
+    <div className="app-dashboard">
+      <header className="dash-header">
+        <div className="dash-header-text">
+          <p className="dash-greeting">Good to see you,</p>
+          <h1 className="dash-title">{firstName} 👋</h1>
         </div>
-        <div className="home-top-actions">
-          <Link to="/wallet" className="wallet-chip">
-            ₹{user?.walletBalance ?? 0}
+        <div className="dash-header-actions">
+          <Link to="/app/wallet" className="dash-wallet-pill">
+            <span className="dash-wallet-label">Wallet</span>
+            <strong>₹{user?.walletBalance ?? 0}</strong>
           </Link>
-          <Link to="/notifications" className="notif-bell">
+          <Link to="/notifications" className="dash-notif-btn" aria-label="Notifications">
             🔔
             {notifCount > 0 && <span className="notif-badge">{notifCount > 9 ? '9+' : notifCount}</span>}
           </Link>
         </div>
+      </header>
+
+      <div className="dash-quick-row">
+        <Link to="/booking/new" className="dash-quick-card dash-quick-primary">
+          <span className="dash-quick-icon">➕</span>
+          <div>
+            <strong>Book assistant</strong>
+            <p>New shopping help</p>
+          </div>
+        </Link>
+        <Link to="/app/bookings" className="dash-quick-card">
+          <span className="dash-quick-icon">📅</span>
+          <div>
+            <strong>My bookings</strong>
+            <p>Track & pay</p>
+          </div>
+        </Link>
+        <Link to="/referral" className="dash-quick-card">
+          <span className="dash-quick-icon">🎁</span>
+          <div>
+            <strong>Refer & earn</strong>
+            <p>Invite friends</p>
+          </div>
+        </Link>
       </div>
 
-      <HeroCarousel />
-
-      <div className="page">
-        {pendingPay && (
-          <div className="card card-click payment-due-card" onClick={() => navigate(`/payment/${pendingPay.id}`)}>
-            <strong>Payment due</strong>
-            <p style={{ margin: '6px 0 0', fontSize: 14, color: 'var(--muted)' }}>
-              {pendingPay.venueName} · ₹{pendingPay.totalAmount}
-            </p>
-            <span className="link-text">Pay now →</span>
-          </div>
-        )}
-
-        {activeBooking && (
-          <div className="card card-click" onClick={() => openBooking(activeBooking)}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <strong>Active booking</strong>
-              <span className="badge">{BOOKING_STATUS_LABEL[activeBooking.status] ?? activeBooking.status}</span>
-            </div>
-            <p style={{ margin: '8px 0 0', color: 'var(--muted)', fontSize: 14 }}>
-              {activeBooking.venueName} · {activeBooking.category?.name}
-            </p>
-          </div>
-        )}
-
-        <h2 style={{ fontSize: 18, fontWeight: 800, margin: '0 0 12px' }}>Services</h2>
-        <div className="category-grid">
-          {categories.map((c) => (
-            <Link
-              key={c.id}
-              to={`/booking/new?category=${c.slug}`}
-              className="card card-click"
-              style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-            >
+      {(pendingPay || activeBooking) && (
+        <section className="dash-alerts">
+          {pendingPay && (
+            <button type="button" className="dash-alert dash-alert-pay" onClick={() => navigate(`/payment/${pendingPay.id}`)}>
               <div>
-                <strong>{c.name}</strong>
-                <p style={{ margin: '4px 0 0', fontSize: 13, color: 'var(--muted)' }}>
-                  ₹{c.baseRate}/hr · {c.description ?? 'Personal shopping help'}
-                </p>
+                <strong>Payment due</strong>
+                <p>{pendingPay.venueName} · ₹{pendingPay.totalAmount}</p>
               </div>
-              <span style={{ color: 'var(--primary)', fontWeight: 700 }}>→</span>
+              <span>Pay →</span>
+            </button>
+          )}
+          {activeBooking && (
+            <button type="button" className="dash-alert dash-alert-live" onClick={() => openBooking(activeBooking)}>
+              <div>
+                <strong>Live booking</strong>
+                <p>{activeBooking.venueName}</p>
+              </div>
+              <span className="badge">{BOOKING_STATUS_LABEL[activeBooking.status] ?? activeBooking.status}</span>
+            </button>
+          )}
+        </section>
+      )}
+
+      <section className="dash-hero-wrap">
+        <HeroCarousel />
+      </section>
+
+      <section className="dash-section">
+        <div className="dash-section-head">
+          <h2>Choose a service</h2>
+          <Link to="/booking/new" className="dash-see-all">View all →</Link>
+        </div>
+        <div className="dash-services-grid">
+          {categories.map((c) => (
+            <Link key={c.id} to={`/booking/new?category=${c.slug}`} className="dash-service-card">
+              <span className="dash-service-icon">{categoryIcon(c.slug)}</span>
+              <div className="dash-service-body">
+                <strong>{c.name}</strong>
+                <p>{c.description ?? 'Personal shopping help'}</p>
+                <span className="dash-service-rate">From ₹{c.baseRate}/hr</span>
+              </div>
+              <span className="dash-service-arrow">→</span>
             </Link>
           ))}
         </div>
-      </div>
+      </section>
 
       {detailBooking && (
         <BookingDetailModal booking={detailBooking} onClose={() => setDetailBooking(null)} />
       )}
-    </>
+    </div>
   );
 }

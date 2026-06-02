@@ -46,9 +46,9 @@ export function ProfilePage() {
       <div className="profile-menu-grid">
         {[
           { to: '/addresses', label: '📍 Saved addresses' },
-          { to: '/wallet', label: '💳 Wallet' },
+          { to: '/app/wallet', label: '💳 Wallet' },
           { to: '/referral', label: '🎁 Refer & earn' },
-          { to: '/bookings', label: '📅 My bookings' },
+          { to: '/app/bookings', label: '📅 My bookings' },
           { to: '/notifications', label: '🔔 Notifications' },
           { to: '/support', label: '💬 Help & support' },
           { to: '/legal', label: '📄 Legal & policies' },

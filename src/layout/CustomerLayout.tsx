@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { isLoggedIn } from '../api/client';
 import { InAppNotificationBanner } from '../components/InAppNotificationBanner';
@@ -41,10 +41,10 @@ function NavIcon({ name, active }: { name: string; active: boolean }) {
 }
 
 const TABS = [
-  { to: '/', label: 'Home', icon: 'home', end: true },
-  { to: '/bookings', label: 'Bookings', icon: 'bookings', end: false },
-  { to: '/wallet', label: 'Wallet', icon: 'wallet', end: false },
-  { to: '/profile', label: 'Profile', icon: 'profile', end: false },
+  { to: '/app', label: 'Home', icon: 'home', end: true },
+  { to: '/app/bookings', label: 'Bookings', icon: 'bookings', end: false },
+  { to: '/app/wallet', label: 'Wallet', icon: 'wallet', end: false },
+  { to: '/app/profile', label: 'Profile', icon: 'profile', end: false },
 ] as const;
 
 function useOffline() {
@@ -70,8 +70,8 @@ function NavItems({ variant }: { variant: 'bottom' | 'sidebar' }) {
     <>
       {TABS.map((t) => {
         const active =
-          t.to === '/'
-            ? location.pathname === '/'
+          t.to === '/app'
+            ? location.pathname === '/app'
             : location.pathname === t.to || location.pathname.startsWith(`${t.to}/`);
         return (
           <NavLink
@@ -101,8 +101,11 @@ export function CustomerLayout() {
       <div className="app-body">
         <aside className="desktop-sidebar" aria-label="Main navigation">
           <div className="sidebar-brand">
-            <span className="sidebar-logo">Lif<span>too</span></span>
+            <Link to="/app" className="sidebar-logo-link">
+              <span className="sidebar-logo">Lif<span>too</span></span>
+            </Link>
             <span className="sidebar-tagline">Shopping assistant</span>
+            <Link to="/" className="sidebar-website-link">← Website</Link>
           </div>
           <nav className="sidebar-nav">
             <NavItems variant="sidebar" />

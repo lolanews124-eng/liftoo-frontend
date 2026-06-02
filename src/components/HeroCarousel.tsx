@@ -48,7 +48,7 @@ export function HeroCarousel() {
         <span className="hero-tag">{slide.tag}</span>
         <h1>{slide.title}</h1>
         <p>{slide.subtitle}</p>
-        <Link to="/booking/new" className="btn btn-primary hero-cta">
+        <Link to="/booking/new" className="btn btn-primary hero-cta" style={{ width: 'auto', display: 'inline-flex' }}>
           {slide.cta}
         </Link>
         <div className="hero-dots" role="tablist" aria-label="Hero slides">

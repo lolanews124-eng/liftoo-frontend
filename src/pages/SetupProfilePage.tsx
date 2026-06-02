@@ -27,7 +27,7 @@ export function SetupProfilePage() {
     setError('');
     try {
       await completeProfile(trimmedName, trimmedPhone);
-      navigate('/');
+      navigate('/app');
     } catch (err) {
       setError(showError(err));
     } finally {

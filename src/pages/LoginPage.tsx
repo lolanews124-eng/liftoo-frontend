@@ -102,7 +102,7 @@ export function LoginPage() {
       if (res.requiresOtp === false) {
         sessionStorage.removeItem(PENDING_AUTH_KEY);
         if (res.user && !isProfileComplete(res.user)) navigate('/auth/setup-profile');
-        else navigate('/');
+        else navigate('/app');
         return;
       }
 
@@ -127,7 +127,8 @@ export function LoginPage() {
   return (
     <div className="auth-page">
       <div className="auth-panel">
-        <div className="hero auth-hero" style={{ margin: '-24px -24px 32px', borderRadius: '0 0 28px 28px' }}>
+        <Link to="/" className="auth-back-link">← Back to website</Link>
+        <div className="hero auth-hero" style={{ margin: '0 -24px 32px', borderRadius: '0 0 28px 28px' }}>
           <div className="auth-logo">
             Lif<span>too</span>
           </div>

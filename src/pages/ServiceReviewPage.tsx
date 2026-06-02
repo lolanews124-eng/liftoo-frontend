@@ -26,7 +26,7 @@ export function ServiceReviewPage() {
 
   const skip = () => {
     if (id) navigate(`/review/app/${id}`);
-    else navigate('/bookings');
+    else navigate('/app/bookings');
   };
 
   return (

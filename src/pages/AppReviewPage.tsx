@@ -16,7 +16,7 @@ export function AppReviewPage() {
     setLoading(true);
     try {
       await customerApi.submitAppReview(id, stars, comment.trim() || undefined);
-      navigate('/bookings');
+      navigate('/app/bookings');
     } catch (err) {
       alert(showError(err));
     } finally {
@@ -24,7 +24,7 @@ export function AppReviewPage() {
     }
   };
 
-  const skip = () => navigate('/bookings');
+  const skip = () => navigate('/app/bookings');
 
   return (
     <div className="page">

@@ -1,0 +1,52 @@
+export const SERVICE_ITEMS = [
+  {
+    icon: '🛍️',
+    title: 'Bag carry assistance',
+    desc: 'Hands-free shopping at malls and markets. Your assistant carries bags while you browse.',
+    rate: '₹150/hr',
+  },
+  {
+    icon: '👨‍👩‍👧',
+    title: 'Family shopping help',
+    desc: 'Support for parents, kids and seniors at crowded stores and exhibitions.',
+    rate: '₹200/hr',
+  },
+  {
+    icon: '🎉',
+    title: 'Festival shopping',
+    desc: 'Diwali, wedding season and sale days — skip the stress, not the shopping.',
+    rate: '₹250/hr',
+  },
+  {
+    icon: '⏳',
+    title: 'Queue assistance',
+    desc: 'Let an assistant wait in line while you use your time better.',
+    rate: '₹120/hr',
+  },
+  {
+    icon: '♿',
+    title: 'Senior citizen help',
+    desc: 'Patient, trusted companions for hospitals, malls and public places.',
+    rate: '₹180/hr',
+  },
+];
+
+export const STEPS = [
+  { num: '01', title: 'Book in minutes', desc: 'Choose a service, pick venue, time and duration on web or app.' },
+  { num: '02', title: 'Get matched', desc: 'Verified assistants nearby accept your request in real time.' },
+  { num: '03', title: 'Shop together', desc: 'Track live, chat, share OTP when service starts.' },
+  { num: '04', title: 'Pay when done', desc: 'Pay via wallet, UPI or cash only after job is complete.' },
+];
+
+export const STATS = [
+  { value: '5+', label: 'Service types' },
+  { value: '24/7', label: 'Booking' },
+  { value: '100%', label: 'Verified assistants' },
+  { value: '₹0', label: 'Pay until done' },
+];
+
+export const TESTIMONIALS = [
+  { quote: 'Festival shopping used to exhaust me. Liftoo assistant carried everything — game changer.', name: 'Priya S.', city: 'Mumbai' },
+  { quote: 'Booked for my mother at the hospital mall. Polite, on time, very professional.', name: 'Rahul M.', city: 'Pune' },
+  { quote: 'Queue at the sale was 2 hours. Assistant waited — I grabbed lunch and came back relaxed.', name: 'Anita K.', city: 'Delhi' },
+];

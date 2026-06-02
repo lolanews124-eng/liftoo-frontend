@@ -9,6 +9,7 @@ import { AuthProvider } from './auth/AuthContext';
 import App from './App';
 
 import './styles/index.css';
+import './styles/website.css';
 
 
 

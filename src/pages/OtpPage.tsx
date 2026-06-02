@@ -69,7 +69,7 @@ export function OtpPage() {
 
       if (!user.profileComplete) navigate('/auth/setup-profile');
 
-      else navigate('/');
+      else navigate('/app');
 
     } catch (err) {
 

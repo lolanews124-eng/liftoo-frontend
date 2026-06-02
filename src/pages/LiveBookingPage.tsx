@@ -34,7 +34,7 @@ export function LiveBookingPage() {
       setError('');
       const step = bookingNextStep(b);
       if (b.status === 'cancelled') {
-        navigate('/bookings');
+        navigate('/app/bookings');
         return;
       }
       if (step === 'pay') navigate(`/payment/${id}`);
@@ -59,7 +59,7 @@ export function LiveBookingPage() {
     setCancelling(true);
     try {
       await customerApi.cancelBooking(id, 'Changed plans', 'Cancelled by customer');
-      navigate('/bookings');
+      navigate('/app/bookings');
     } catch (err) {
       alert(showError(err));
     } finally {

@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useAuth } from './auth/AuthContext';
 import { CustomerLayout, StandaloneLayout } from './layout/CustomerLayout';
+import { WebsiteLayout } from './layout/WebsiteLayout';
 import { LoginPage } from './pages/LoginPage';
 import { OtpPage } from './pages/OtpPage';
 import { SetupProfilePage } from './pages/SetupProfilePage';
@@ -20,11 +21,17 @@ import { ServiceReviewPage } from './pages/ServiceReviewPage';
 import { AppReviewPage } from './pages/AppReviewPage';
 import { LegalIndexPage } from './pages/legal/LegalIndexPage';
 import { LegalPolicyPage } from './pages/legal/LegalPolicyPage';
+import { PublicEntryPage } from './pages/website/PublicEntryPage';
+import { HowItWorksPage } from './pages/website/HowItWorksPage';
+import { ServicesPage } from './pages/website/ServicesPage';
+import { AboutPage } from './pages/website/AboutPage';
+import { ForAssistantsPage } from './pages/website/ForAssistantsPage';
+import { ContactPage } from './pages/website/ContactPage';
 
 function LoadingScreen() {
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      Loading…
+    <div className="site-loading">
+      <div className="site-loading-spinner" />
     </div>
   );
 }
@@ -40,7 +47,7 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
 function RequireGuest({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   if (loading) return <LoadingScreen />;
-  if (user?.profileComplete) return <Navigate to="/" replace />;
+  if (user?.profileComplete) return <Navigate to="/app" replace />;
   if (user && !user.profileComplete) return <Navigate to="/auth/setup-profile" replace />;
   return <>{children}</>;
 }
@@ -49,18 +56,32 @@ function RequireProfileSetup({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   if (loading) return <LoadingScreen />;
   if (!user) return <Navigate to="/auth/login" replace />;
-  if (user.profileComplete) return <Navigate to="/" replace />;
+  if (user.profileComplete) return <Navigate to="/app" replace />;
   return <>{children}</>;
 }
 
 export default function App() {
   return (
     <Routes>
+      {/* Public marketing website */}
+      <Route element={<WebsiteLayout />}>
+        <Route index element={<PublicEntryPage />} />
+        <Route path="how-it-works" element={<HowItWorksPage />} />
+        <Route path="services" element={<ServicesPage />} />
+        <Route path="about" element={<AboutPage />} />
+        <Route path="for-assistants" element={<ForAssistantsPage />} />
+        <Route path="contact" element={<ContactPage />} />
+        <Route path="legal" element={<LegalIndexPage />} />
+        <Route path="legal/:slug" element={<LegalPolicyPage />} />
+      </Route>
+
+      {/* Auth */}
       <Route path="/auth/login" element={<RequireGuest><StandaloneLayout><LoginPage /></StandaloneLayout></RequireGuest>} />
       <Route path="/auth/otp" element={<RequireGuest><StandaloneLayout><OtpPage /></StandaloneLayout></RequireGuest>} />
       <Route path="/auth/setup-profile" element={<RequireProfileSetup><StandaloneLayout><SetupProfilePage /></StandaloneLayout></RequireProfileSetup>} />
 
-      <Route element={<RequireAuth><CustomerLayout /></RequireAuth>}>
+      {/* Logged-in app */}
+      <Route path="/app" element={<RequireAuth><CustomerLayout /></RequireAuth>}>
         <Route index element={<HomePage />} />
         <Route path="bookings" element={<BookingsPage />} />
         <Route path="wallet" element={<WalletPage />} />
@@ -78,8 +99,10 @@ export default function App() {
       <Route path="/review/service/:id" element={<RequireAuth><StandaloneLayout><ServiceReviewPage /></StandaloneLayout></RequireAuth>} />
       <Route path="/review/app/:id" element={<RequireAuth><StandaloneLayout><AppReviewPage /></StandaloneLayout></RequireAuth>} />
 
-      <Route path="/legal" element={<StandaloneLayout><LegalIndexPage /></StandaloneLayout>} />
-      <Route path="/legal/:slug" element={<StandaloneLayout><LegalPolicyPage /></StandaloneLayout>} />
+      {/* Legacy redirects */}
+      <Route path="/bookings" element={<Navigate to="/app/bookings" replace />} />
+      <Route path="/wallet" element={<Navigate to="/app/wallet" replace />} />
+      <Route path="/profile" element={<Navigate to="/app/profile" replace />} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
