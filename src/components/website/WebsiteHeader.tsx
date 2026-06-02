@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 
@@ -7,18 +7,26 @@ const NAV = [
   { to: '/how-it-works', label: 'How it works' },
   { to: '/services', label: 'Services' },
   { to: '/about', label: 'About' },
-  { to: '/for-assistants', label: 'For assistants' },
+  { to: '/for-assistants', label: 'Assistants' },
   { to: '/contact', label: 'Contact' },
 ];
 
 export function WebsiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { user } = useAuth();
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="site-header">
+    <header className={`site-header${scrolled ? ' scrolled' : ''}`}>
       <div className="site-header-inner">
         <Link to="/" className="site-logo" onClick={() => setOpen(false)}>
+          <span className="logo-mark">L</span>
           Lif<span>too</span>
         </Link>
 
@@ -26,9 +34,10 @@ export function WebsiteHeader() {
           type="button"
           className="site-menu-btn"
           aria-label="Menu"
+          aria-expanded={open}
           onClick={() => setOpen((o) => !o)}
         >
-          {open ? '✕' : '☰'}
+          <span className={`menu-icon${open ? ' open' : ''}`} />
         </button>
 
         <nav className={`site-nav${open ? ' open' : ''}`}>
@@ -47,15 +56,15 @@ export function WebsiteHeader() {
 
         <div className={`site-header-cta${open ? ' open' : ''}`}>
           {user?.profileComplete ? (
-            <Link to="/app" className="btn btn-primary site-btn" onClick={() => setOpen(false)}>
+            <Link to="/app" className="site-btn-primary site-btn-sm" onClick={() => setOpen(false)}>
               Open app
             </Link>
           ) : (
             <>
-              <Link to="/auth/login" className="btn btn-outline site-btn site-btn-ghost" onClick={() => setOpen(false)}>
+              <Link to="/auth/login" className="site-nav-login" onClick={() => setOpen(false)}>
                 Log in
               </Link>
-              <Link to="/auth/login" className="btn btn-primary site-btn" onClick={() => setOpen(false)}>
+              <Link to="/auth/login" className="site-btn-primary site-btn-sm" onClick={() => setOpen(false)}>
                 Get started
               </Link>
             </>
