@@ -148,6 +148,8 @@ export const customerApi = {
   getBookings: (status?: string) =>
     api<import('./types').Booking[]>(`/bookings${status ? `?status=${status}` : ''}`),
 
+  getBlockingBooking: () => api<import('./types').Booking | null>('/bookings/blocking'),
+
   getBooking: (id: string) => api<import('./types').Booking>(`/bookings/${id}`),
 
   createBooking: (data: Record<string, unknown>) =>
@@ -221,6 +223,15 @@ export const customerApi = {
 
   markNotificationRead: (id: string) =>
     api(`/notifications/${id}/read`, { method: 'PATCH' }),
+
+  markAllNotificationsRead: () =>
+    api<{ updated: number }>('/notifications/read-all', { method: 'PATCH' }),
+
+  deleteNotification: (id: string) =>
+    api<{ deleted: number }>(`/notifications/${id}`, { method: 'DELETE' }),
+
+  deleteAllNotifications: () =>
+    api<{ deleted: number }>('/notifications', { method: 'DELETE' }),
 
   validatePromo: (code: string, orderAmount: number) =>
     api<{ discountAmount: number; finalAmount: number }>('/promos/validate', {

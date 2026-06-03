@@ -107,7 +107,12 @@ export interface Booking {
   totalAmount: number;
   serviceOtp?: string | null;
   category?: Category;
-  assistant?: { id: string; name?: string; phone?: string; assistantProfile?: { rating?: number } } | null;
+  assistant?: {
+    id: string;
+    name?: string;
+    phone?: string;
+    assistantProfile?: { rating?: number; assistantCode?: string };
+  } | null;
   customer?: { id: string; name?: string; phone?: string };
   statusHistory?: { status: string; note?: string; createdAt: string }[];
   paymentConfirmOtp?: string | null;

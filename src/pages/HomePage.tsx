@@ -9,6 +9,7 @@ import { HeroCarousel } from '../components/HeroCarousel';
 import { NetworkErrorView, showError } from '../components/NetworkError';
 import { HomeSkeleton } from '../components/Skeleton';
 import { getCoords } from '../utils/geolocation';
+import { resolveBlockingBookingPath } from '../utils/bookingBlock';
 
 const CATEGORY_ICONS: Record<string, string> = {
   'bag-carry': '🛍️',
@@ -26,8 +27,7 @@ function categoryIcon(slug?: string) {
 export function HomePage() {
   const { user } = useAuth();
   const [categories, setCategories] = useState<Category[]>([]);
-  const [activeBooking, setActiveBooking] = useState<Booking | null>(null);
-  const [pendingPay, setPendingPay] = useState<Booking | null>(null);
+  const [blockingBooking, setBlockingBooking] = useState<Booking | null>(null);
   const [notifCount, setNotifCount] = useState(0);
   const [referralReward, setReferralReward] = useState(100);
   const [loading, setLoading] = useState(true);
@@ -39,20 +39,14 @@ export function HomePage() {
     setLoading(true);
     setError('');
     try {
-      const [cats, upcoming, completed, notifs, referrals] = await Promise.all([
+      const [cats, blocking, notifs, referrals] = await Promise.all([
         customerApi.getCategories(),
-        customerApi.getBookings('upcoming'),
-        customerApi.getBookings('completed'),
+        customerApi.getBlockingBooking().catch(() => null),
         customerApi.getNotifications(),
         customerApi.getReferrals().catch(() => null),
       ]);
       setCategories(cats);
-      const active = upcoming.find((b) =>
-        ['pending', 'searching', 'assigned', 'arriving', 'started'].includes(b.status),
-      );
-      setActiveBooking(active ?? null);
-      const payDue = completed.find((b) => bookingNextStep(b) === 'pay');
-      setPendingPay(payDue ?? null);
+      setBlockingBooking(blocking);
       setNotifCount(notifs.filter((n) => !n.readAt).length);
       const reward = referrals?.rewardPerReferral;
       if (typeof reward === 'number' && reward >= 0) setReferralReward(reward);
@@ -84,6 +78,10 @@ export function HomePage() {
   }
 
   const firstName = user?.name?.split(' ')[0] ?? 'there';
+  const canBook = !blockingBooking;
+  const payDue = blockingBooking && bookingNextStep(blockingBooking) === 'pay' ? blockingBooking : null;
+  const activeBooking =
+    blockingBooking && !payDue ? blockingBooking : null;
 
   return (
     <div className="app-dashboard">
@@ -105,13 +103,28 @@ export function HomePage() {
       </header>
 
       <div className="dash-quick-row">
-        <Link to="/booking/new" className="dash-quick-card dash-quick-primary">
-          <span className="dash-quick-icon">➕</span>
-          <div>
-            <strong>Book assistant</strong>
-            <p>New shopping help</p>
-          </div>
-        </Link>
+        {canBook ? (
+          <Link to="/booking/new" className="dash-quick-card dash-quick-primary">
+            <span className="dash-quick-icon">➕</span>
+            <div>
+              <strong>Book assistant</strong>
+              <p>New shopping help</p>
+            </div>
+          </Link>
+        ) : (
+          <button
+            type="button"
+            className="dash-quick-card dash-quick-primary"
+            style={{ cursor: 'pointer', border: 'none', textAlign: 'left', width: '100%' }}
+            onClick={() => blockingBooking && navigate(resolveBlockingBookingPath(blockingBooking))}
+          >
+            <span className="dash-quick-icon">📋</span>
+            <div>
+              <strong>{payDue ? 'Payment due' : 'Booking in progress'}</strong>
+              <p>Finish current booking to book again</p>
+            </div>
+          </button>
+        )}
         <Link to="/app/bookings" className="dash-quick-card">
           <span className="dash-quick-icon">📅</span>
           <div>
@@ -152,9 +165,10 @@ export function HomePage() {
       )}
 
       <section className="dash-hero-wrap">
-        <HeroCarousel />
+        <HeroCarousel showBookCta={canBook} />
       </section>
 
+      {canBook && (
       <section className="dash-section">
         <div className="dash-section-head">
           <h2>Choose a service</h2>
@@ -174,6 +188,7 @@ export function HomePage() {
           ))}
         </div>
       </section>
+      )}
 
       <section className="dash-section dash-referral-section">
         <Link to="/referral" className="dash-referral-banner">

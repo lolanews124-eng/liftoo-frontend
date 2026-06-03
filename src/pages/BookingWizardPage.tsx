@@ -8,6 +8,7 @@ import { showError } from '../components/NetworkError';
 import { LocationPreview } from '../components/LocationPreview';
 import { PageLoader } from '../components/PageLoader';
 import { getCoords } from '../utils/geolocation';
+import { resolveBlockingBookingPath } from '../utils/bookingBlock';
 
 const STEPS = ['Service', 'Duration', 'Location', 'Confirm'];
 const GPS_ID = 'gps-current';
@@ -78,6 +79,15 @@ export function BookingWizardPage() {
   const [locationLoading, setLocationLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    customerApi
+      .getBlockingBooking()
+      .then((blocking) => {
+        if (blocking) navigate(resolveBlockingBookingPath(blocking), { replace: true });
+      })
+      .catch(() => null);
+  }, [navigate]);
 
   useEffect(() => {
     Promise.all([customerApi.getCategories(), customerApi.getAddresses(), resolveGpsLocation()])

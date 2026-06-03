@@ -4,6 +4,7 @@ import { customerApi, isLoggedIn } from '../api/client';
 import type { Booking } from '../api/types';
 import { bookingNextStep, BOOKING_STATUS_LABEL, isBookingPaid, isPaymentPending } from '../api/types';
 import { NetworkErrorView, showError } from '../components/NetworkError';
+import { assistantCode, assistantSummary } from '../utils/assistantDisplay';
 import { AssistantAvailabilityCard } from '../components/AssistantAvailabilityCard';
 import { LiveTrackingMap } from '../components/LiveTrackingMap';
 import { useSocket } from '../hooks/useSocket';
@@ -141,8 +142,24 @@ export function LiveBookingPage() {
           {booking.assistant && (
             <div className="card">
               <strong>Your assistant</strong>
-              <p style={{ margin: '8px 0 0' }}>{booking.assistant.name ?? 'Assistant'}</p>
-              <p style={{ fontSize: 13, color: 'var(--muted)' }}>+91 {booking.assistant.phone}</p>
+              <p style={{ margin: '8px 0 0' }}>{assistantSummary(booking)}</p>
+              {assistantCode(booking) && (
+                <p
+                  style={{
+                    margin: '10px 0 0',
+                    display: 'inline-block',
+                    padding: '6px 12px',
+                    borderRadius: 8,
+                    background: 'var(--navy, #001a3e)',
+                    color: '#fff',
+                    fontWeight: 800,
+                    fontSize: 13,
+                  }}
+                >
+                  Assistant ID: {assistantCode(booking)}
+                </p>
+              )}
+              <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 10 }}>+91 {booking.assistant.phone}</p>
               {booking.assistant.assistantProfile?.rating && (
                 <p style={{ fontSize: 13 }}>★ {booking.assistant.assistantProfile.rating.toFixed(1)}</p>
               )}

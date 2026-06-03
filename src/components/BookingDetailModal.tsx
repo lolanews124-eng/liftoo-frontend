@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import type { Booking } from '../api/types';
+import { assistantCode, assistantSummary } from '../utils/assistantDisplay';
 import {
   BOOKING_STATUS_LABEL,
   bookingNextStep,
@@ -69,7 +70,13 @@ export function BookingDetailModal({ booking, onClose }: Props) {
           {booking.assistant?.name && (
             <div className="detail-row">
               <span className="detail-label">Assistant</span>
-              <span>{booking.assistant.name}</span>
+              <span>{assistantSummary(booking)}</span>
+            </div>
+          )}
+          {assistantCode(booking) && (
+            <div className="detail-row">
+              <span className="detail-label">Assistant ID</span>
+              <span style={{ fontWeight: 800 }}>{assistantCode(booking)}</span>
             </div>
           )}
 

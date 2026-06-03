@@ -4,6 +4,7 @@ import { customerApi } from '../api/client';
 import type { Booking } from '../api/types';
 import { BOOKING_STATUS_LABEL, isPaymentPending } from '../api/types';
 import { BookingDetailModal } from '../components/BookingDetailModal';
+import { assistantSummary } from '../utils/assistantDisplay';
 import { NetworkErrorView, showError } from '../components/NetworkError';
 import { ListSkeleton } from '../components/Skeleton';
 import { EmptyState } from '../components/EmptyState';
@@ -76,7 +77,7 @@ export function BookingsPage() {
                 <strong>₹{b.totalAmount}</strong>
               </div>
               {b.assistant?.name && (
-                <p style={{ margin: '8px 0 0', fontSize: 13 }}>Assistant: {b.assistant.name}</p>
+                <p style={{ margin: '8px 0 0', fontSize: 13, fontWeight: 600 }}>{assistantSummary(b)}</p>
               )}
               {isPaymentPending(b) && (
                 <p className="pay-badge">Payment pending</p>

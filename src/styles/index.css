@@ -275,6 +275,43 @@ button, input, select, textarea { font: inherit; }
   font-weight: 700;
 }
 
+.notif-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.notif-delete-all {
+  color: var(--error, #ef4444);
+  border-color: rgba(239, 68, 68, 0.35);
+}
+.notif-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.notif-card-body {
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+.notif-delete-one {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.notif-delete-one:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
 .hero {
   background: linear-gradient(135deg, var(--hero-from), var(--hero-to));
   padding: 24px var(--page-pad) 28px;
@@ -933,6 +970,26 @@ button, input, select, textarea { font: inherit; }
   text-align: center;
 }
 .auth-legal a { color: var(--primary); font-weight: 600; }
+
+/* Profile legal links */
+.legal-profile-section { margin-top: 20px; }
+.legal-profile-heading {
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+}
+.legal-profile-list { display: flex; flex-direction: column; gap: 8px; }
+.legal-profile-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: inherit;
+}
+.legal-profile-title { font-size: 14px; font-weight: 600; }
+.legal-profile-arrow { font-size: 20px; color: var(--muted); }
 
 /* Live tracking (Swiggy-style) */
 .tracking-map-wrap {

@@ -4,6 +4,7 @@ import { customerApi } from '../api/client';
 import { AvatarPicker } from '../components/AvatarPicker';
 import { showError } from '../components/NetworkError';
 import { useAuth } from '../auth/AuthContext';
+import { LegalProfileLinks } from '../components/LegalProfileLinks';
 
 export function ProfilePage() {
   const { user, logout } = useAuth();
@@ -51,13 +52,14 @@ export function ProfilePage() {
           { to: '/app/bookings', label: '📅 My bookings' },
           { to: '/notifications', label: '🔔 Notifications' },
           { to: '/support', label: '💬 Help & support' },
-          { to: '/legal', label: '📄 Legal & policies' },
         ].map((item) => (
           <Link key={item.to} to={item.to} className="card card-click" style={{ display: 'block' }}>
             {item.label}
           </Link>
         ))}
       </div>
+
+      <LegalProfileLinks />
 
       {user?.roles?.includes('assistant') && (
         <button type="button" className="btn btn-outline" style={{ marginTop: 16 }} onClick={switchToAssistant} disabled={switching}>
