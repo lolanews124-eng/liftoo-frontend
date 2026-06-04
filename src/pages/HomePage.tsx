@@ -29,7 +29,7 @@ export function HomePage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [blockingBooking, setBlockingBooking] = useState<Booking | null>(null);
   const [notifCount, setNotifCount] = useState(0);
-  const [referralReward, setReferralReward] = useState(100);
+  const [referralReward, setReferralReward] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [detailBooking, setDetailBooking] = useState<Booking | null>(null);
@@ -141,13 +141,13 @@ export function HomePage() {
         </Link>
       </div>
 
-      {(pendingPay || activeBooking) && (
+      {(payDue || activeBooking) && (
         <section className="dash-alerts">
-          {pendingPay && (
-            <button type="button" className="dash-alert dash-alert-pay" onClick={() => navigate(`/payment/${pendingPay.id}`)}>
+          {payDue && (
+            <button type="button" className="dash-alert dash-alert-pay" onClick={() => navigate(`/payment/${payDue.id}`)}>
               <div>
                 <strong>Payment due</strong>
-                <p>{pendingPay.venueName} · ₹{pendingPay.totalAmount}</p>
+                <p>{payDue.venueName} · ₹{payDue.totalAmount}</p>
               </div>
               <span>Pay →</span>
             </button>
@@ -190,21 +190,23 @@ export function HomePage() {
       </section>
       )}
 
-      <section className="dash-section dash-referral-section">
-        <Link to="/referral" className="dash-referral-banner">
-          <span className="dash-referral-icon" aria-hidden>
-            🎁
-          </span>
-          <div className="dash-referral-text">
-            <strong>Refer &amp; earn</strong>
-            <p>Earn ₹{Math.round(referralReward)} per friend on their first booking</p>
-          </div>
-          <span className="dash-referral-amount">₹{Math.round(referralReward)}</span>
-          <span className="dash-referral-arrow" aria-hidden>
-            →
-          </span>
-        </Link>
-      </section>
+      {referralReward != null && referralReward > 0 && (
+        <section className="dash-section dash-referral-section">
+          <Link to="/referral" className="dash-referral-banner">
+            <span className="dash-referral-icon" aria-hidden>
+              🎁
+            </span>
+            <div className="dash-referral-text">
+              <strong>Refer &amp; earn</strong>
+              <p>Earn ₹{Math.round(referralReward)} per friend on their first booking</p>
+            </div>
+            <span className="dash-referral-amount">₹{Math.round(referralReward)}</span>
+            <span className="dash-referral-arrow" aria-hidden>
+              →
+            </span>
+          </Link>
+        </section>
+      )}
 
       {detailBooking && (
         <BookingDetailModal booking={detailBooking} onClose={() => setDetailBooking(null)} />

@@ -23,13 +23,10 @@ const PENDING_AUTH_KEY = 'liftoo_pending_auth';
 export interface PendingAuth {
   email: string;
   password: string;
-  devOtp?: string;
 }
 
-export function storePendingAuth(email: string, password: string, devOtp?: string) {
-  const payload: PendingAuth = { email, password };
-  if (devOtp) payload.devOtp = devOtp;
-  sessionStorage.setItem(PENDING_AUTH_KEY, JSON.stringify(payload));
+export function storePendingAuth(email: string, password: string) {
+  sessionStorage.setItem(PENDING_AUTH_KEY, JSON.stringify({ email, password }));
 }
 
 
@@ -106,7 +103,7 @@ export function LoginPage() {
         return;
       }
 
-      storePendingAuth(email.trim(), password, res.devOtp);
+      storePendingAuth(email.trim(), password);
 
       const q = referralValue ? `?ref=${encodeURIComponent(referralValue)}` : '';
       navigate(`/auth/otp${q}`);

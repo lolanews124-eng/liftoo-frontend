@@ -19,7 +19,7 @@ export function ReferralPage() {
 
   const code = data?.referralCode ?? data?.code;
   const history = data?.history ?? data?.referrals ?? [];
-  const reward = data?.rewardPerReferral ?? 100;
+  const reward = data?.rewardPerReferral;
 
   const copy = () => {
     if (!code) return;
@@ -48,7 +48,11 @@ export function ReferralPage() {
 
       <div className="card" style={{ textAlign: 'center', background: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', color: '#fff' }}>
         <p style={{ margin: 0, fontSize: 14, opacity: 0.95 }}>Refer &amp; earn</p>
-        <p style={{ margin: '8px 0 0', fontSize: 15 }}>Earn ₹{Math.round(reward)} per successful referral</p>
+        <p style={{ margin: '8px 0 0', fontSize: 15 }}>
+          {typeof reward === 'number' && reward > 0
+            ? `Earn ₹${Math.round(reward)} per successful referral`
+            : 'Invite friends — reward amount is set by Liftoo admin'}
+        </p>
       </div>
 
       <div className="card" style={{ textAlign: 'center', background: 'var(--primary-light)' }}>

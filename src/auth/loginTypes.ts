@@ -5,7 +5,6 @@ export interface LoginResponse {
   expiresIn?: number;
   requiresOtp: boolean;
   isNewUser?: boolean;
-  devOtp?: string;
   accessToken?: string;
   refreshToken?: string;
   user?: User;
