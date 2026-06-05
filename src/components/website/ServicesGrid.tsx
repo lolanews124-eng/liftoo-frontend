@@ -5,6 +5,7 @@ import {
   categoryIcon,
   categoryShortName,
   formatHourlyRate,
+  categoryColorClass,
 } from '../../utils/serviceCatalog';
 
 interface ServicesGridProps {
@@ -38,16 +39,20 @@ export function ServicesGrid({ categories, variant = 'landing', showCta = false 
           </>
         );
 
+        const colorClass = categoryColorClass(c.slug);
+        const landingClass = `lp-category-card ${colorClass}`;
+        const pageClass = `site-service-card-v2 site-service-card-colored ${colorClass}`;
+
         if (showCta) {
           return (
-            <MarketingCta key={c.id} className="site-service-card-v2">
+            <MarketingCta key={c.id} className={pageClass}>
               {card}
             </MarketingCta>
           );
         }
 
         return (
-          <div key={c.id} className={variant === 'landing' ? 'lp-category-card' : 'site-service-card-v2 site-service-card-static'}>
+          <div key={c.id} className={variant === 'landing' ? landingClass : `${pageClass} site-service-card-static`}>
             {card}
           </div>
         );

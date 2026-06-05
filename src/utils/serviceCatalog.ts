@@ -75,6 +75,19 @@ export function categoryEmoji(slug: string) {
   return CATEGORY_META[slug]?.emoji ?? '✨';
 }
 
+/** Matches Flutter app `AppColors.categoryColor` */
+export const CATEGORY_COLORS: Record<string, { main: string; soft: string; border: string }> = {
+  bag_carry: { main: '#ff0064', soft: '#fff0f6', border: 'rgba(255, 0, 100, 0.18)' },
+  queue: { main: '#8b5cf6', soft: '#f3e8ff', border: 'rgba(139, 92, 246, 0.2)' },
+  family: { main: '#3b82f6', soft: '#eff6ff', border: 'rgba(59, 130, 246, 0.2)' },
+  senior: { main: '#10b981', soft: '#ecfdf5', border: 'rgba(16, 185, 129, 0.2)' },
+  festival: { main: '#ec4899', soft: '#fdf2f8', border: 'rgba(236, 72, 153, 0.2)' },
+};
+
+export function categoryColorClass(slug: string) {
+  return CATEGORY_COLORS[slug] ? `cat-${slug.replace(/_/g, '-')}` : 'cat-default';
+}
+
 export function formatHourlyRate(rate: number) {
   return `₹${Math.round(rate)}/hr`;
 }

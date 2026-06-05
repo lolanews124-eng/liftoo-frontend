@@ -4,6 +4,7 @@ import { useAuth } from '../../auth/AuthContext';
 import { WEB_AUTH_ENABLED } from '../../config/features';
 import { AuthLoginCta } from './AuthCta';
 import { PlayStoreCta } from './PlayStoreCta';
+import { WebsiteLogo } from './WebsiteLogo';
 
 const NAV = [
   { to: '/', label: 'Home', end: true },
@@ -28,10 +29,7 @@ export function WebsiteHeader() {
   return (
     <header className={`site-header${scrolled ? ' scrolled' : ''}`}>
       <div className="site-header-inner">
-        <Link to="/" className="site-logo" onClick={() => setOpen(false)}>
-          <span className="logo-mark">L</span>
-          Lif<span>too</span>
-        </Link>
+        <WebsiteLogo onClick={() => setOpen(false)} />
 
         <button
           type="button"

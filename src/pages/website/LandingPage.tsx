@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { MarketingCta } from '../../components/website/MarketingCta';
 import { ServicesGrid, ServicesGridSkeleton } from '../../components/website/ServicesGrid';
-import { FeatureVisual, HeroVisual } from '../../components/website/WebsiteVisuals';
 import { WEBSITE_COPY } from '../../config/websiteContent';
 import { useCategories } from '../../hooks/useCategories';
 import { PATNA_VENUES, SITE_INFO } from '../../config/siteInfo';
@@ -21,6 +20,10 @@ import {
   MapPinned,
   MessageCircle,
 } from 'lucide-react';
+
+const HERO_PROMO_IMG = '/hero-promo.png';
+const FEATURE_SHOPPER_IMG = '/feature-shopper.png';
+const FEATURE_FAMILY_IMG = '/feature-family.png';
 
 const PRICING_ICONS = {
   rates: IndianRupee,
@@ -101,26 +104,16 @@ export function LandingPage() {
 
           <div className="lp-hero-visual">
             <div className="lp-hero-glow" aria-hidden />
-            <div className="lp-hero-image-wrap lp-float">
-              <HeroVisual />
-            </div>
-            <div className="lp-float-card lp-float-card-left lp-fade-in-up">
-              <div className="lp-float-card-icon lp-float-card-icon-pink">
-                <CheckCircle2 className="lp-icon-md" aria-hidden />
-              </div>
-              <div>
-                <p className="lp-float-card-label">Assistant matched</p>
-                <p className="lp-float-card-value">Live in the app</p>
-              </div>
-            </div>
-            <div className="lp-float-card lp-float-card-right">
-              <div className="lp-float-card-icon lp-float-card-icon-navy">₹</div>
-              <div>
-                <p className="lp-float-card-label">Starting at</p>
-                <p className="lp-float-card-value">
-                  {loading ? '…' : `${formatHourlyRate(startingRate).replace('/hr', '')} / hour`}
-                </p>
-              </div>
+            <div className="lp-hero-image-wrap">
+              <img
+                src={HERO_PROMO_IMG}
+                alt="Liftoo app with a shopping assistant helping a customer at the mall"
+                className="lp-hero-image lp-hero-promo-image"
+                width={1024}
+                height={1024}
+                loading="eager"
+                fetchPriority="high"
+              />
             </div>
           </div>
         </div>
@@ -167,7 +160,14 @@ export function LandingPage() {
       <section className="lp-section lp-section-tight">
         <div className="lp-container lp-split-grid">
           <div className="lp-feature-card">
-            <FeatureVisual variant="shopper" />
+            <img
+              src={FEATURE_SHOPPER_IMG}
+              alt="Happy shopper using Liftoo app with assistant carrying bags at the mall"
+              className="lp-feature-photo"
+              width={1024}
+              height={1024}
+              loading="lazy"
+            />
             <div className="lp-feature-body">
               <span className="lp-feature-tag">For shoppers</span>
               <h3>Walk in light. Walk out lighter.</h3>
@@ -178,7 +178,14 @@ export function LandingPage() {
             </div>
           </div>
           <div className="lp-feature-card">
-            <FeatureVisual variant="family" />
+            <img
+              src={FEATURE_FAMILY_IMG}
+              alt="Liftoo assistant helping a senior citizen with grocery shopping"
+              className="lp-feature-photo"
+              width={1024}
+              height={1024}
+              loading="lazy"
+            />
             <div className="lp-feature-body">
               <span className="lp-feature-tag">For families</span>
               <h3>A friend for your parents.</h3>

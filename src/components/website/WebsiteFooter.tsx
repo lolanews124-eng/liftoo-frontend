@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { MapPin } from 'lucide-react';
 import { SITE_INFO } from '../../config/siteInfo';
 import { PlayStoreCta } from './PlayStoreCta';
+import { WebsiteLogo } from './WebsiteLogo';
 
 export function WebsiteFooter() {
   return (
@@ -10,10 +11,7 @@ export function WebsiteFooter() {
       <div className="site-container">
         <div className="site-footer-top">
           <div className="site-footer-brand">
-            <Link to="/" className="site-logo site-logo-footer">
-              <span className="logo-mark">L</span>
-              Lif<span>too</span>
-            </Link>
+            <WebsiteLogo variant="footer" />
             <p>
               On-demand shopping assistant in {SITE_INFO.shortAddress}. Book help at malls, markets and
               more — pay when the job is done.
