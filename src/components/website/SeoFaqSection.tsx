@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import { SITE_INFO } from '../../config/siteInfo';
 import { getFaqsForPath } from '../../seo/seoConfig';
 
 export function SeoFaqSection() {
@@ -13,7 +14,8 @@ export function SeoFaqSection() {
         <div className="lp-section-center lp-section-center-mb">
           <span className="lp-badge lp-badge-navy">FAQ</span>
           <h2 id="faq-heading" className="lp-heading">
-            Common questions about <span className="lp-text-gradient">Liftoo in Patna</span>
+            Common questions about{' '}
+            <span className="lp-text-gradient">Liftoo in {SITE_INFO.city}</span>
           </h2>
           <p className="lp-section-lead lp-section-lead-center">
             Quick answers for shoppers, families and assistants in Bihar.

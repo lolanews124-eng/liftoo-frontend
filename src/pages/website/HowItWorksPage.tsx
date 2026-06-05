@@ -26,7 +26,7 @@ export function HowItWorksPage() {
               </article>
             ))}
           </div>
-          <div className="site-seo-content-card" style={{ marginTop: 40 }}>
+          <div className="site-seo-content-card site-seo-inline-card">
             <h2>How Liftoo works in {SITE_INFO.displayAddress}</h2>
             <p>
               Liftoo is an on-demand shopping assistant platform built for {SITE_INFO.city} shoppers.
