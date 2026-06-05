@@ -30,11 +30,11 @@ export function AboutPage() {
             <div className="site-about-card-v2 accent">
               <h2>What we offer</h2>
               <ul>
-                <li>Customer web app & Android app</li>
-                <li>Live booking tracking & chat</li>
-                <li>Wallet, UPI & cash payments</li>
-                <li>Refer & earn for customers</li>
-                <li>Assistant app with earnings & KYC</li>
+                <li>Bag carry, queue, family, senior & festival shopping help</li>
+                <li>Book on Android app or customer web</li>
+                <li>Live tracking, in-app chat & OTP start</li>
+                <li>Wallet, UPI & cash — pay after service</li>
+                <li>Refer & earn rewards for customers</li>
               </ul>
             </div>
           </div>

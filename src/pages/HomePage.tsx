@@ -11,17 +11,11 @@ import { HomeSkeleton } from '../components/Skeleton';
 import { getCoords } from '../utils/geolocation';
 import { resolveBlockingBookingPath } from '../utils/bookingBlock';
 
-const CATEGORY_ICONS: Record<string, string> = {
-  'bag-carry': '🛍️',
-  'family-help': '👨‍👩‍👧',
-  'festival': '🎉',
-  'queue': '⏳',
-  'senior': '♿',
-};
+import { categoryEmoji } from '../utils/serviceCatalog';
 
 function categoryIcon(slug?: string) {
   if (!slug) return '✨';
-  return CATEGORY_ICONS[slug] ?? '✨';
+  return categoryEmoji(slug);
 }
 
 export function HomePage() {

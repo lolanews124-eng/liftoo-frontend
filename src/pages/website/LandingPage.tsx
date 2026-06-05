@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
 import { AuthLoginCta } from '../../components/website/AuthCta';
+import { ServicesGrid, ServicesGridSkeleton } from '../../components/website/ServicesGrid';
+import { useCategories } from '../../hooks/useCategories';
+import { formatHourlyRate, minHourlyRate } from '../../utils/serviceCatalog';
 import {
   ShoppingBag,
-  Users,
-  HeartHandshake,
-  Sparkles,
-  Clock,
   Shield,
   Star,
   ArrowRight,
@@ -17,7 +16,6 @@ import {
   Zap,
   IndianRupee,
   Phone,
-  type LucideIcon,
 } from 'lucide-react';
 
 const HERO_IMG =
@@ -26,15 +24,6 @@ const SENIOR_IMG =
   'https://images.unsplash.com/photo-1581579438747-1dc8d17bb4ec?w=1024&h=768&fit=crop&q=80';
 const HANDS_FREE_IMG =
   'https://images.unsplash.com/photo-1483985988350-763728e3685b?w=1280&h=960&fit=crop&q=80';
-
-const categories: { icon: LucideIcon; title: string; desc: string }[] = [
-  { icon: ShoppingBag, title: 'Bag Carry', desc: 'Hands-free shopping, end to end' },
-  { icon: Clock, title: 'Queue Assist', desc: 'We stand in line — you stay free' },
-  { icon: HeartHandshake, title: 'Senior Help', desc: 'Patient, caring companions' },
-  { icon: Users, title: 'Family Shopping', desc: 'Extra hands for kids & strollers' },
-  { icon: Sparkles, title: 'Festival Rush', desc: 'Diwali, Eid, weddings sorted' },
-  { icon: MapPin, title: 'Parking → Store', desc: 'Door-to-aisle, both ways' },
-];
 
 const malls = [
   'Phoenix Marketcity',
@@ -73,6 +62,10 @@ const testimonials = [
 ];
 
 export function LandingPage() {
+  const { categories, loading } = useCategories();
+  const startingRate = minHourlyRate(categories);
+  const serviceCount = categories.length || 5;
+
   return (
     <div className="lp">
       {/* HERO */}
@@ -128,7 +121,7 @@ export function LandingPage() {
                 src={HERO_IMG}
                 alt="Liftoo assistant carrying shopping bags with a happy family"
                 width={1280}
-                height={1280}
+                height={1600}
                 className="lp-hero-image"
               />
             </div>
@@ -145,7 +138,9 @@ export function LandingPage() {
               <div className="lp-float-card-icon lp-float-card-icon-navy">₹</div>
               <div>
                 <p className="lp-float-card-label">Starting at</p>
-                <p className="lp-float-card-value">₹149 / hour</p>
+                <p className="lp-float-card-value">
+                  {loading ? '…' : `${formatHourlyRate(startingRate).replace('/hr', '')} / hour`}
+                </p>
               </div>
             </div>
           </div>
@@ -176,25 +171,19 @@ export function LandingPage() {
                 Pick your <span className="lp-text-gradient">superpower</span>
               </h2>
               <p className="lp-section-lead">
-                Six ways Liftoo makes a mall trip feel like a spa day. Mix and match — your assistant
-                adapts.
+                {serviceCount} ways Liftoo makes a mall trip feel like a spa day. Mix and match — your
+                assistant adapts.
               </p>
             </div>
             <Link to="/services" className="lp-link-arrow lp-hide-mobile">
               View all services <ArrowRight className="lp-icon-sm" aria-hidden />
             </Link>
           </div>
-          <div className="lp-categories-grid">
-            {categories.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="lp-category-card">
-                <div className="lp-category-icon">
-                  <Icon className="lp-icon-lg" aria-hidden />
-                </div>
-                <h3>{title}</h3>
-                <p>{desc}</p>
-              </div>
-            ))}
-          </div>
+          {loading ? (
+            <ServicesGridSkeleton variant="landing" />
+          ) : (
+            <ServicesGrid categories={categories} variant="landing" />
+          )}
         </div>
       </section>
 
@@ -224,7 +213,7 @@ export function LandingPage() {
               src={SENIOR_IMG}
               alt="Assistant gently helping a senior citizen shopper"
               width={1024}
-              height={1024}
+              height={768}
               loading="lazy"
               className="lp-feature-image"
             />
@@ -279,7 +268,7 @@ export function LandingPage() {
                 n: '02',
                 icon: ShoppingBag,
                 t: 'Choose service',
-                d: 'Bag carry, queue help, family support — your call.',
+                d: 'Bag carry, queue, family, senior or festival — your call.',
               },
               {
                 n: '03',
@@ -359,7 +348,11 @@ export function LandingPage() {
         <div className="lp-container">
           <div className="lp-pricing-grid">
             {[
-              { icon: IndianRupee, t: 'From ₹149/hr', d: 'Pay only for what you use' },
+              {
+                icon: IndianRupee,
+                t: loading ? 'Hourly rates' : `From ${formatHourlyRate(startingRate)}`,
+                d: 'Pay only for what you use',
+              },
               { icon: Zap, t: 'Live in 8 minutes', d: 'Average assistant arrival time' },
               { icon: Smartphone, t: 'Track on WhatsApp', d: 'No app install needed' },
               { icon: Phone, t: '24×7 helpline', d: 'Real humans, real fast' },

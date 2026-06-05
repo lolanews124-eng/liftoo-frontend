@@ -1,36 +1,3 @@
-export const SERVICE_ITEMS = [
-  {
-    icon: '🛍️',
-    title: 'Bag carry assistance',
-    desc: 'Hands-free shopping at malls and markets. Your assistant carries bags while you browse.',
-    rate: '₹150/hr',
-  },
-  {
-    icon: '👨‍👩‍👧',
-    title: 'Family shopping help',
-    desc: 'Support for parents, kids and seniors at crowded stores and exhibitions.',
-    rate: '₹200/hr',
-  },
-  {
-    icon: '🎉',
-    title: 'Festival shopping',
-    desc: 'Diwali, wedding season and sale days — skip the stress, not the shopping.',
-    rate: '₹250/hr',
-  },
-  {
-    icon: '⏳',
-    title: 'Queue assistance',
-    desc: 'Let an assistant wait in line while you use your time better.',
-    rate: '₹120/hr',
-  },
-  {
-    icon: '♿',
-    title: 'Senior citizen help',
-    desc: 'Patient, trusted companions for hospitals, malls and public places.',
-    rate: '₹180/hr',
-  },
-];
-
 export const STEPS = [
   { num: '01', title: 'Book in minutes', desc: 'Choose a service, pick venue, time and duration on web or app.' },
   { num: '02', title: 'Get matched', desc: 'Verified assistants nearby accept your request in real time.' },
