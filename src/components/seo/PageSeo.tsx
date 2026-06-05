@@ -27,18 +27,17 @@ function upsertMeta(name: string, content: string, attr: 'name' | 'property' = '
   el.content = content;
 }
 
-function upsertLink(rel: string, href: string, attrs?: Record<string, string>) {
-  const attrKey = attrs ? JSON.stringify(attrs) : '';
+function upsertLink(rel: string, href: string, linkId: string, attrs?: Record<string, string>) {
   let el = document.querySelector(
-    `link[rel="${rel}"][${MANAGED_ATTR}][data-attrs="${attrKey}"]`,
+    `link[${MANAGED_ATTR}][data-link-id="${linkId}"]`,
   ) as HTMLLinkElement | null;
   if (!el) {
     el = document.createElement('link');
-    el.rel = rel;
     el.setAttribute(MANAGED_ATTR, 'true');
-    el.setAttribute('data-attrs', attrKey);
+    el.setAttribute('data-link-id', linkId);
     document.head.appendChild(el);
   }
+  el.rel = rel;
   el.href = href;
   if (attrs) {
     Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
@@ -105,8 +104,11 @@ export function PageSeo({ title, description, keywords, path, ogType = 'website'
     upsertMeta('twitter:image', absoluteUrl('/hero-promo.png'));
     upsertMeta('twitter:image:alt', 'Liftoo shopping assistant app in Patna, Bihar');
 
-    upsertLink('canonical', url);
-    upsertLink('alternate', absoluteUrl('/llms.txt'), { type: 'text/plain', title: 'LLM content index' });
+    upsertLink('canonical', url, 'canonical');
+    upsertLink('alternate', absoluteUrl('/llms.txt'), 'llms-txt', {
+      type: 'text/plain',
+      title: 'LLM content index',
+    });
 
     upsertJsonLd('liftoo-org-schema', buildOrganizationSchema());
     upsertJsonLd('liftoo-website-schema', buildWebsiteSchema());
