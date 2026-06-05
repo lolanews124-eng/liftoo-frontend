@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { AuthLoginCta } from './AuthCta';
 
 export function WebsiteFooter() {
   return (
@@ -15,16 +16,16 @@ export function WebsiteFooter() {
               India&apos;s on-demand shopping assistant platform. Book help at malls, markets and more —
               pay when the job is done.
             </p>
-            <Link to="/auth/login" className="site-btn-primary site-btn-sm">
+            <AuthLoginCta className="site-btn-primary site-btn-sm">
               Book now
-            </Link>
+            </AuthLoginCta>
           </div>
           <div className="site-footer-links">
             <div>
               <h4>Product</h4>
               <Link to="/services">Services</Link>
               <Link to="/how-it-works">How it works</Link>
-              <Link to="/auth/login">Customer app</Link>
+              <AuthLoginCta>Customer app</AuthLoginCta>
             </div>
             <div>
               <h4>Company</h4>

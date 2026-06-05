@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { AuthLoginCta } from '../../components/website/AuthCta';
 import { PageHero } from '../../components/website/PageHero';
 
 export function ContactPage() {
@@ -22,7 +22,7 @@ export function ContactPage() {
               <span className="icon">💬</span>
               <h3>In-app support</h3>
               <p>Logged-in customers can open Help & support from profile.</p>
-              <Link to="/auth/login" className="site-text-link">Log in →</Link>
+              <AuthLoginCta className="site-text-link">Log in →</AuthLoginCta>
             </div>
             <div className="site-contact-card-v2">
               <span className="icon">📍</span>

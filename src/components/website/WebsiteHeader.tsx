@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
+import { WEB_AUTH_ENABLED } from '../../config/features';
+import { AuthLoginCta } from './AuthCta';
 
 const NAV = [
   { to: '/', label: 'Home', end: true },
@@ -55,18 +57,18 @@ export function WebsiteHeader() {
         </nav>
 
         <div className={`site-header-cta${open ? ' open' : ''}`}>
-          {user?.profileComplete ? (
+          {WEB_AUTH_ENABLED && user?.profileComplete ? (
             <Link to="/app" className="site-btn-primary site-btn-sm" onClick={() => setOpen(false)}>
               Open app
             </Link>
           ) : (
             <>
-              <Link to="/auth/login" className="site-nav-login" onClick={() => setOpen(false)}>
+              <AuthLoginCta className="site-nav-login" onClick={() => setOpen(false)}>
                 Log in
-              </Link>
-              <Link to="/auth/login" className="site-btn-primary site-btn-sm" onClick={() => setOpen(false)}>
+              </AuthLoginCta>
+              <AuthLoginCta className="site-btn-primary site-btn-sm" onClick={() => setOpen(false)}>
                 Get started
-              </Link>
+              </AuthLoginCta>
             </>
           )}
         </div>

@@ -231,6 +231,14 @@
 }
 .site-nav-login:hover { color: var(--site-pink); }
 
+.auth-cta-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  display: inline-block;
+  text-decoration: none;
+}
+
 .site-header-cta {
   display: flex;
   align-items: center;

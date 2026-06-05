@@ -5,6 +5,8 @@ import { WebsiteLayout } from './layout/WebsiteLayout';
 import { LoginPage } from './pages/LoginPage';
 import { OtpPage } from './pages/OtpPage';
 import { SetupProfilePage } from './pages/SetupProfilePage';
+import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
+import { ResetPasswordPage } from './pages/ResetPasswordPage';
 import { HomePage } from './pages/HomePage';
 import { BookingsPage } from './pages/BookingsPage';
 import { WalletPage } from './pages/WalletPage';
@@ -27,6 +29,7 @@ import { ServicesPage } from './pages/website/ServicesPage';
 import { AboutPage } from './pages/website/AboutPage';
 import { ForAssistantsPage } from './pages/website/ForAssistantsPage';
 import { ContactPage } from './pages/website/ContactPage';
+import { WEB_AUTH_ENABLED } from './config/features';
 
 function LoadingScreen() {
   return (
@@ -39,6 +42,7 @@ function LoadingScreen() {
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   if (loading) return <LoadingScreen />;
+  if (!WEB_AUTH_ENABLED && !user) return <Navigate to="/" replace />;
   if (!user) return <Navigate to="/auth/login" replace />;
   if (!user.profileComplete) return <Navigate to="/auth/setup-profile" replace />;
   return <>{children}</>;
@@ -46,6 +50,7 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
 
 function RequireGuest({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
+  if (!WEB_AUTH_ENABLED) return <Navigate to="/" replace />;
   if (loading) return <LoadingScreen />;
   if (user?.profileComplete) return <Navigate to="/app" replace />;
   if (user && !user.profileComplete) return <Navigate to="/auth/setup-profile" replace />;
@@ -54,6 +59,7 @@ function RequireGuest({ children }: { children: React.ReactNode }) {
 
 function RequireProfileSetup({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
+  if (!WEB_AUTH_ENABLED) return <Navigate to="/" replace />;
   if (loading) return <LoadingScreen />;
   if (!user) return <Navigate to="/auth/login" replace />;
   if (user.profileComplete) return <Navigate to="/app" replace />;
@@ -78,6 +84,8 @@ export default function App() {
       {/* Auth */}
       <Route path="/auth/login" element={<RequireGuest><StandaloneLayout><LoginPage /></StandaloneLayout></RequireGuest>} />
       <Route path="/auth/otp" element={<RequireGuest><StandaloneLayout><OtpPage /></StandaloneLayout></RequireGuest>} />
+      <Route path="/auth/forgot-password" element={<RequireGuest><StandaloneLayout><ForgotPasswordPage /></StandaloneLayout></RequireGuest>} />
+      <Route path="/auth/reset-password" element={<RequireGuest><StandaloneLayout><ResetPasswordPage /></StandaloneLayout></RequireGuest>} />
       <Route path="/auth/setup-profile" element={<RequireProfileSetup><StandaloneLayout><SetupProfilePage /></StandaloneLayout></RequireProfileSetup>} />
 
       {/* Logged-in app */}

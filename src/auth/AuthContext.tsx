@@ -19,6 +19,10 @@ interface AuthContextValue {
 
   resendEmailOtp: (email: string, password: string) => Promise<LoginResponse>;
 
+  sendPasswordResetOtp: (email: string) => Promise<{ message: string }>;
+
+  resetPassword: (email: string, otp: string, newPassword: string) => Promise<{ message: string }>;
+
   completeProfile: (name: string, phone: string) => Promise<User>;
 
   refreshUser: () => Promise<void>;
@@ -165,6 +169,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const resendEmailOtp = (email: string, password: string) =>
     customerApi.resendEmailOtp(email, password);
 
+  const sendPasswordResetOtp = (email: string) => customerApi.sendPasswordResetOtp(email);
+
+  const resetPassword = (email: string, otp: string, newPassword: string) =>
+    customerApi.resetPassword(email, otp, newPassword);
+
 
 
   const completeProfile = async (name: string, phone: string) => {
@@ -207,6 +216,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         verifyEmailOtp,
 
         resendEmailOtp,
+
+        sendPasswordResetOtp,
+
+        resetPassword,
 
         completeProfile,
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 import { useAuth } from '../auth/AuthContext';
 import type { User } from '../api/types';
@@ -58,6 +58,9 @@ export function LoginPage() {
   const { loginWithEmail } = useAuth();
 
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const successMessage = (location.state as { message?: string } | null)?.message;
 
   const [params] = useSearchParams();
 
@@ -139,6 +142,7 @@ export function LoginPage() {
 
         <form onSubmit={submit}>
 
+        {successMessage && <div className="success-banner">{successMessage}</div>}
         {error && <div className="error-banner">{error}</div>}
 
         <label className="field">
@@ -180,6 +184,10 @@ export function LoginPage() {
           />
 
         </label>
+
+        <p style={{ textAlign: 'right', margin: '0 0 12px' }}>
+          <Link to="/auth/forgot-password" style={{ fontWeight: 700, fontSize: 14 }}>Forgot password?</Link>
+        </p>
 
         <label className="field">
 

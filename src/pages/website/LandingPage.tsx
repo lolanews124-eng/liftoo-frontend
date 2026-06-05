@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { AuthLoginCta } from '../../components/website/AuthCta';
 import {
   ShoppingBag,
   Users,
@@ -95,10 +96,10 @@ export function LandingPage() {
               stand in queues, and help your parents and kids enjoy the day.
             </p>
             <div className="lp-hero-cta">
-              <Link to="/auth/login" className="lp-btn-gradient">
+              <AuthLoginCta className="lp-btn-gradient">
                 Book an assistant
                 <ArrowRight className="lp-icon-sm lp-btn-arrow" aria-hidden />
-              </Link>
+              </AuthLoginCta>
               <Link to="/how-it-works" className="lp-btn-outline">
                 See how it works
               </Link>
@@ -424,9 +425,9 @@ export function LandingPage() {
                 the chai stop.
               </p>
               <div className="lp-final-actions">
-                <Link to="/auth/login" className="lp-btn-white">
+                <AuthLoginCta className="lp-btn-white">
                   Book your first assistant <ArrowRight className="lp-icon-sm" aria-hidden />
-                </Link>
+                </AuthLoginCta>
                 <Link to="/contact" className="lp-btn-ghost">
                   Have a question?
                 </Link>

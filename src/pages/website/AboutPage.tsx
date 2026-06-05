@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { AuthLoginCta } from '../../components/website/AuthCta';
 import { PageHero } from '../../components/website/PageHero';
 
 const VALUES = [
@@ -48,7 +49,7 @@ export function AboutPage() {
           </div>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <Link to="/contact" className="site-btn-glass">Contact us</Link>
-            <Link to="/auth/login" className="site-btn-primary">Start booking</Link>
+            <AuthLoginCta className="site-btn-primary">Start booking</AuthLoginCta>
           </div>
         </div>
       </div>

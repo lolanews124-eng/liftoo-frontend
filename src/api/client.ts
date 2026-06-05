@@ -126,6 +126,18 @@ export const customerApi = {
       body: JSON.stringify({ email, password }),
     }),
 
+  sendPasswordResetOtp: (email: string) =>
+    api<{ message: string }>('/auth/password/forgot', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    }),
+
+  resetPassword: (email: string, otp: string, newPassword: string) =>
+    api<{ message: string }>('/auth/password/reset', {
+      method: 'POST',
+      body: JSON.stringify({ email, otp, newPassword }),
+    }),
+
   verifyEmailOtp: (email: string, otp: string, referralCode?: string) =>
     api<{ accessToken: string; refreshToken: string; user: import('./types').User; isNewUser?: boolean }>(
       '/auth/otp/verify',
