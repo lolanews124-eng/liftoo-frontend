@@ -40,7 +40,7 @@ export function ServicesPage() {
                 <li>Pay per hour — 30 min, 1 hr, 2 hr, 3 hr or 4 hr slots</li>
                 <li>No upfront booking fee; pay only after service is complete</li>
                 <li>Wallet, UPI and cash accepted in the app</li>
-                <li>Promo codes like <strong>LIFT30</strong> apply at checkout</li>
+                <li>Promo codes can be applied at checkout in the app</li>
               </ul>
             </div>
             <div className="site-pricing-note-card accent">

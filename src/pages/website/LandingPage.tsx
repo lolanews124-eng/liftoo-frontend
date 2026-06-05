@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { MarketingCta } from '../../components/website/MarketingCta';
 import { ServicesGrid, ServicesGridSkeleton } from '../../components/website/ServicesGrid';
+import { FeatureVisual, HeroVisual } from '../../components/website/WebsiteVisuals';
+import { WEBSITE_COPY } from '../../config/websiteContent';
 import { useCategories } from '../../hooks/useCategories';
 import { PATNA_VENUES, SITE_INFO } from '../../config/siteInfo';
 import { formatHourlyRate, minHourlyRate } from '../../utils/serviceCatalog';
@@ -12,37 +14,38 @@ import {
   MapPin,
   CheckCircle2,
   Quote,
-  Smartphone,
   BadgeCheck,
   Zap,
   IndianRupee,
   Phone,
+  MapPinned,
+  MessageCircle,
 } from 'lucide-react';
 
-const HERO_IMG =
-  'https://images.unsplash.com/photo-1555529669-2269763671c0?w=800&h=600&fit=crop&q=80';
-const SENIOR_IMG =
-  'https://images.unsplash.com/photo-1581579438747-1dc8d17bb4ec?w=1024&h=768&fit=crop&q=80';
-const HANDS_FREE_IMG =
-  'https://images.unsplash.com/photo-1483985988350-763728e3685b?w=1280&h=960&fit=crop&q=80';
+const PRICING_ICONS = {
+  rates: IndianRupee,
+  match: Zap,
+  track: MapPinned,
+  support: Phone,
+} as const;
 
 const testimonials = [
   {
     name: 'Anjali Singh',
     where: 'Patna • P&M Mall',
-    text: 'Diwali shopping with two toddlers used to be a nightmare. My Liftoo assistant carried everything and even held my coffee. Genuinely life-changing.',
+    text: 'Diwali shopping with two toddlers used to be a nightmare. My Liftoo assistant carried everything. Genuinely helpful.',
     stars: 5,
   },
   {
     name: 'Ravi Kumar',
     where: 'Patna • City Centre Mall',
-    text: "Booked for my parents — they call it their 'mall friend' now. Polite, on-time, and so helpful with senior shopping.",
+    text: "Booked for my parents — polite, on-time, and so helpful with senior shopping.",
     stars: 5,
   },
   {
     name: 'Sneha Kapoor',
     where: 'Patna • Boring Road',
-    text: 'Sale day without standing in the queue? Yes please. Liftoo paid for itself in saved time.',
+    text: 'Sale day without standing in the queue? The assistant waited while I shopped relaxed.',
     stars: 5,
   },
 ];
@@ -54,7 +57,6 @@ export function LandingPage() {
 
   return (
     <div className="lp">
-      {/* HERO */}
       <section className="lp-hero">
         <div className="lp-grid-dots" aria-hidden />
         <div className="lp-container lp-hero-grid">
@@ -63,17 +65,14 @@ export function LandingPage() {
               <span className="lp-pulse-ring" aria-hidden>
                 <span className="lp-pulse-dot" />
               </span>
-              Assistants live in {SITE_INFO.city}
+              Now live in {SITE_INFO.city}
             </span>
             <h1 className="lp-hero-title">
               Shopping karo,
               <br />
               <span className="lp-text-gradient">bina bags</span> uthaye 🛍️
             </h1>
-            <p className="lp-hero-lead">
-              Liftoo gets you a trained personal assistant at the mall in minutes — to carry your bags,
-              stand in queues, and help your parents and kids enjoy the day.
-            </p>
+            <p className="lp-hero-lead">{WEBSITE_COPY.heroLead}</p>
             <div className="lp-hero-cta">
               <MarketingCta className="lp-btn-gradient">
                 Download app
@@ -90,12 +89,12 @@ export function LandingPage() {
                     <Star key={i} className="lp-icon-star" aria-hidden />
                   ))}
                 </div>
-                <p className="lp-trust-caption">4.9 from 12,400+ bookings</p>
+                <p className="lp-trust-caption">{WEBSITE_COPY.trustRating}</p>
               </div>
               <div className="lp-trust-divider" aria-hidden />
               <div className="lp-trust-shield">
                 <Shield className="lp-icon-shield" aria-hidden />
-                <span>Verified & insured</span>
+                <span>{WEBSITE_COPY.trustVerified}</span>
               </div>
             </div>
           </div>
@@ -103,21 +102,15 @@ export function LandingPage() {
           <div className="lp-hero-visual">
             <div className="lp-hero-glow" aria-hidden />
             <div className="lp-hero-image-wrap lp-float">
-              <img
-                src={HERO_IMG}
-                alt="Liftoo assistant carrying shopping bags with a happy family"
-                width={800}
-                height={600}
-                className="lp-hero-image"
-              />
+              <HeroVisual />
             </div>
             <div className="lp-float-card lp-float-card-left lp-fade-in-up">
               <div className="lp-float-card-icon lp-float-card-icon-pink">
                 <CheckCircle2 className="lp-icon-md" aria-hidden />
               </div>
               <div>
-                <p className="lp-float-card-label">Assistant assigned</p>
-                <p className="lp-float-card-value">Priya • 4 min away</p>
+                <p className="lp-float-card-label">Assistant matched</p>
+                <p className="lp-float-card-value">Live in the app</p>
               </div>
             </div>
             <div className="lp-float-card lp-float-card-right">
@@ -133,7 +126,6 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* MALL MARQUEE */}
       <section className="lp-marquee-section">
         <p className="lp-marquee-label">Available at {SITE_INFO.city}&apos;s best malls &amp; markets</p>
         <div className="lp-marquee-wrap">
@@ -147,7 +139,6 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* CATEGORIES */}
       <section className="lp-section">
         <div className="lp-container">
           <div className="lp-section-head">
@@ -157,8 +148,8 @@ export function LandingPage() {
                 Pick your <span className="lp-text-gradient">superpower</span>
               </h2>
               <p className="lp-section-lead">
-                {serviceCount} ways Liftoo makes a mall trip feel like a spa day. Mix and match — your
-                assistant adapts.
+                {serviceCount} services — same as the app. Book bag carry, queue help, family support,
+                senior assistance or festival shopping.
               </p>
             </div>
             <Link to="/services" className="lp-link-arrow lp-hide-mobile">
@@ -173,94 +164,70 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* WHY LIFTOO */}
       <section className="lp-section lp-section-tight">
         <div className="lp-container lp-split-grid">
           <div className="lp-feature-card">
-            <img
-              src={HANDS_FREE_IMG}
-              alt="Happy shopper walking hands-free with an assistant carrying bags"
-              width={1280}
-              height={960}
-              loading="lazy"
-              className="lp-feature-image"
-            />
+            <FeatureVisual variant="shopper" />
             <div className="lp-feature-body">
               <span className="lp-feature-tag">For shoppers</span>
               <h3>Walk in light. Walk out lighter.</h3>
               <p>
-                No more juggling bags, kids and shopping lists. Your Liftoo assistant handles the heavy
-                lifting — literally — so you can actually enjoy the mall.
+                No more juggling bags, kids and shopping lists. Your Liftoo assistant carries bags and
+                helps you move through the mall stress-free.
               </p>
             </div>
           </div>
           <div className="lp-feature-card">
-            <img
-              src={SENIOR_IMG}
-              alt="Assistant gently helping a senior citizen shopper"
-              width={1024}
-              height={768}
-              loading="lazy"
-              className="lp-feature-image"
-            />
+            <FeatureVisual variant="family" />
             <div className="lp-feature-body">
               <span className="lp-feature-tag">For families</span>
               <h3>A friend for your parents.</h3>
               <p>
-                Patient, polite, fluent in Hindi & English. Book a Liftoo for your parents when you
-                can&apos;t be there — and check in live from your phone.
+                Patient, polite, fluent in Hindi &amp; English. Book for your parents and track the
+                booking live in the app with map and chat.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* STATS */}
       <section className="lp-section lp-stats-section">
         <div className="lp-container">
           <div className="lp-stats-panel">
             <div className="lp-stats-glow" aria-hidden />
-            {(
-              [
-                ['12K+', 'Happy shoppers'],
-                ['200+', 'Trained assistants'],
-                ['10+', `${SITE_INFO.city} venues`],
-                ['4.9★', 'Average rating'],
-              ] as const
-            ).map(([n, l]) => (
-              <div key={l} className="lp-stat">
-                <p className="lp-stat-value">{n}</p>
-                <p className="lp-stat-label">{l}</p>
+            {WEBSITE_COPY.stats.map(({ value, label }) => (
+              <div key={label} className="lp-stat">
+                <p className="lp-stat-value">{value}</p>
+                <p className="lp-stat-label">{label}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* BOOK IN 30s */}
       <section className="lp-section">
         <div className="lp-container">
           <div className="lp-section-center">
             <span className="lp-badge lp-badge-navy">How it works</span>
-            <h2 className="lp-heading">Book in 30 seconds</h2>
+            <h2 className="lp-heading">Book in the app</h2>
             <p className="lp-section-lead lp-section-lead-center">
-              Three taps. No phone calls, no waiting around, no surprises.
+              Download Liftoo, pick a service and venue — track everything inside the app.
             </p>
           </div>
           <div className="lp-steps-grid">
             {[
-              { n: '01', icon: MapPin, t: 'Pick your venue', d: `Choose from top malls and markets across ${SITE_INFO.city}.` },
+              { n: '01', icon: MapPin, t: 'Pick location', d: `Choose a mall or market in ${SITE_INFO.city}.` },
               {
                 n: '02',
                 icon: ShoppingBag,
                 t: 'Choose service',
-                d: 'Bag carry, queue, family, senior or festival — your call.',
+                d: 'Bag carry, queue, family, senior or festival — hourly rates shown upfront.',
               },
               {
                 n: '03',
                 icon: BadgeCheck,
-                t: 'Meet your assistant',
-                d: 'Verified, trained, smiling — and on the way.',
+                t: 'Track in the app',
+                d: 'Live map, in-app chat, OTP to start and notifications — all in Liftoo.',
               },
             ].map((s) => (
               <div key={s.n} className="lp-step-card">
@@ -274,7 +241,6 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* COMPARISON */}
       <section className="lp-section lp-section-tight">
         <div className="lp-container">
           <div className="lp-compare-wrap">
@@ -290,11 +256,11 @@ export function LandingPage() {
                 </h3>
                 <ul>
                   {[
-                    'Sore arms from 6 shopping bags',
-                    '20 min in the billing queue',
-                    'Toddler meltdown near the food court',
-                    'Forgot the car — wandering parking',
-                    'Promised to never shop again',
+                    'Sore arms from heavy shopping bags',
+                    'Long wait in the billing queue',
+                    'Hard to manage kids and parents together',
+                    'No way to check on parents remotely',
+                    'Shopping feels exhausting',
                   ].map((t) => (
                     <li key={t}>
                       <span className="lp-compare-x" aria-hidden>
@@ -311,11 +277,11 @@ export function LandingPage() {
                 </h3>
                 <ul>
                   {[
-                    'Hands free, posture intact',
-                    'Skip the queue — we stand in it',
-                    'Extra grown-up for the kids',
-                    'Walked straight to the car',
-                    'Already booking the next trip',
+                    'Hands free while you browse',
+                    'Assistant waits in the queue',
+                    'Extra help for family outings',
+                    'Live tracking & chat in the app',
+                    'Pay only after service is done',
                   ].map((t) => (
                     <li key={t}>
                       <CheckCircle2 className="lp-compare-check" aria-hidden />
@@ -329,39 +295,33 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* PRICING TEASE */}
       <section className="lp-section">
         <div className="lp-container">
           <div className="lp-pricing-grid">
-            {[
-              {
-                icon: IndianRupee,
-                t: loading ? 'Hourly rates' : `From ${formatHourlyRate(startingRate)}`,
-                d: 'Pay only for what you use',
-              },
-              { icon: Zap, t: 'Live in 8 minutes', d: 'Average assistant arrival time' },
-              { icon: Smartphone, t: 'Track on WhatsApp', d: 'No app install needed' },
-              { icon: Phone, t: '24×7 helpline', d: 'Real humans, real fast' },
-            ].map(({ icon: Icon, t, d }) => (
-              <div key={t} className="lp-pricing-card">
-                <div className="lp-pricing-icon">
-                  <Icon className="lp-icon-lg" aria-hidden />
+            {WEBSITE_COPY.pricingHighlights.map(({ key, title, desc }) => {
+              const Icon = PRICING_ICONS[key];
+              const displayTitle =
+                key === 'rates' && !loading ? `From ${formatHourlyRate(startingRate)}` : title;
+              return (
+                <div key={key} className="lp-pricing-card">
+                  <div className="lp-pricing-icon">
+                    <Icon className="lp-icon-lg" aria-hidden />
+                  </div>
+                  <p className="lp-pricing-title">{displayTitle}</p>
+                  <p className="lp-pricing-desc">{desc}</p>
                 </div>
-                <p className="lp-pricing-title">{t}</p>
-                <p className="lp-pricing-desc">{d}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
       <section className="lp-section">
         <div className="lp-container">
           <div className="lp-section-center lp-section-center-mb">
             <span className="lp-badge lp-badge-pink">Loved by shoppers</span>
             <h2 className="lp-heading">
-              12,400+ smiles, <span className="lp-text-gradient">and counting</span>
+              What <span className="lp-text-gradient">Patna shoppers</span> say
             </h2>
           </div>
           <div className="lp-testimonials-grid">
@@ -387,28 +347,21 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* FINAL CTA */}
       <section className="lp-section lp-section-final">
         <div className="lp-container">
           <div className="lp-final-cta">
             <div className="lp-grid-dots lp-grid-dots-light" aria-hidden />
             <div className="lp-final-inner">
-              <span className="lp-final-badge">Limited launch offer</span>
-              <h2 className="lp-final-title">
-                Pehli booking par
-                <br />
-                30% off — bas <span className="lp-final-code">LIFT30</span> lagao.
-              </h2>
-              <p className="lp-final-lead">
-                Walk into your next mall trip like royalty. Liftoo handles the bags, the queues, and even
-                the chai stop.
-              </p>
+              <span className="lp-final-badge">{WEBSITE_COPY.finalCta.badge}</span>
+              <h2 className="lp-final-title">{WEBSITE_COPY.finalCta.title}</h2>
+              <p className="lp-final-lead">{WEBSITE_COPY.finalCta.lead}</p>
               <div className="lp-final-actions">
                 <MarketingCta className="lp-btn-white">
                   Download on Play Store <ArrowRight className="lp-icon-sm" aria-hidden />
                 </MarketingCta>
                 <Link to="/contact" className="lp-btn-ghost">
-                  Have a question?
+                  <MessageCircle className="lp-icon-sm" aria-hidden />
+                  Contact us
                 </Link>
               </div>
             </div>

@@ -7,7 +7,7 @@ export function HowItWorksPage() {
       <PageHero
         pill="How it works"
         title="Your assistant, start to finish"
-        lead="Whether you use the website or Android app, the experience is the same — book, track, pay when done."
+        lead="Download the Liftoo app — book a service, track live on the map, chat with your assistant and pay when the job is done."
         cta={{ label: 'Download app', to: '/auth/login' }}
       />
       <div className="site-page">

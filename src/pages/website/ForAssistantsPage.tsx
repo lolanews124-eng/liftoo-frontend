@@ -37,9 +37,9 @@ export function ForAssistantsPage() {
               <li>Go online and accept nearby booking requests.</li>
             </ol>
           </div>
-          <div style={{ marginTop: 24, display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+          <div className="site-page-actions">
             <PlayStoreCta className="site-btn-primary">Download on Google Play</PlayStoreCta>
-            <p style={{ margin: 0, color: 'var(--site-muted)', fontSize: 15 }}>
+            <p className="site-page-actions-note">
               <strong>Note:</strong> Assistant and customer features run in the Liftoo Android app.
             </p>
           </div>

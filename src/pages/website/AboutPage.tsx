@@ -25,14 +25,14 @@ export function AboutPage() {
               <h2>Our mission</h2>
               <p>
                 Crowded malls, heavy bags, long queues and family outings shouldn&apos;t be exhausting. We built Liftoo
-                so anyone can book trusted help in minutes — on the web or phone — and pay only when the job is done.
+                so anyone in {SITE_INFO.city} can book trusted help in minutes through the Android app and pay only when the job is done.
               </p>
             </div>
             <div className="site-about-card-v2 accent">
               <h2>What we offer</h2>
               <ul>
                 <li>Bag carry, queue, family, senior & festival shopping help</li>
-                <li>Book on Android app or customer web</li>
+                <li>Book on the Liftoo Android app</li>
                 <li>Live tracking, in-app chat & OTP start</li>
                 <li>Wallet, UPI & cash — pay after service</li>
                 <li>Refer & earn rewards for customers</li>
@@ -48,7 +48,7 @@ export function AboutPage() {
               </article>
             ))}
           </div>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <div className="site-page-actions">
             <Link to="/contact" className="site-btn-glass">Contact us</Link>
             <MarketingCta className="site-btn-primary">Download app</MarketingCta>
           </div>

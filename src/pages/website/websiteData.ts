@@ -1,8 +1,8 @@
 export const STEPS = [
-  { num: '01', title: 'Book in minutes', desc: 'Choose a service, pick venue, time and duration on web or app.' },
-  { num: '02', title: 'Get matched', desc: 'Verified assistants nearby accept your request in real time.' },
-  { num: '03', title: 'Shop together', desc: 'Track live, chat, share OTP when service starts.' },
-  { num: '04', title: 'Pay when done', desc: 'Pay via wallet, UPI or cash only after job is complete.' },
+  { num: '01', title: 'Download & sign up', desc: 'Get the Liftoo app, verify your email and set up your profile.' },
+  { num: '02', title: 'Book in minutes', desc: 'Choose a service, pick location, duration (30 min – 4 hr) and confirm.' },
+  { num: '03', title: 'Track & chat', desc: 'Follow live map tracking, chat with your assistant and share OTP to start.' },
+  { num: '04', title: 'Pay when done', desc: 'Pay via wallet, UPI or cash only after the assistant marks the job complete.' },
 ];
 
 export const STATS = [
