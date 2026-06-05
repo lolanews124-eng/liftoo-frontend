@@ -1,4 +1,4 @@
-import { Mail, MapPin, MessageCircle, Phone, Send } from 'lucide-react';
+import { Mail, MapPin, MessageCircle, Send } from 'lucide-react';
 import { PlayStoreCta } from '../../components/website/PlayStoreCta';
 import { PageHero } from '../../components/website/PageHero';
 import { SITE_INFO } from '../../config/siteInfo';
@@ -16,13 +16,6 @@ const CONTACT_ITEMS = [
     highlight: SITE_INFO.email,
     detail: 'We respond within 24 hours on business days.',
     href: `mailto:${SITE_INFO.email}`,
-  },
-  {
-    icon: Phone,
-    title: 'Phone',
-    highlight: SITE_INFO.phone,
-    detail: 'Call us for booking or support queries.',
-    href: `tel:${SITE_INFO.phone.replace(/\s/g, '')}`,
   },
   {
     icon: MessageCircle,

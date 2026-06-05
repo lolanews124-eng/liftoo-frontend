@@ -18,7 +18,7 @@ import {
   BadgeCheck,
   Zap,
   IndianRupee,
-  Phone,
+  Mail,
   MapPinned,
   MessageCircle,
 } from 'lucide-react';
@@ -31,7 +31,7 @@ const PRICING_ICONS = {
   rates: IndianRupee,
   match: Zap,
   track: MapPinned,
-  support: Phone,
+  support: Mail,
 } as const;
 
 const testimonials = [

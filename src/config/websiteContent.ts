@@ -15,7 +15,7 @@ export const WEBSITE_COPY = {
     { key: 'rates', title: 'Transparent hourly rates', desc: 'Pay only for the duration you book' },
     { key: 'match', title: 'Real-time matching', desc: 'Nearby assistants accept your request live' },
     { key: 'track', title: 'Live in-app tracking', desc: 'Map, ETA, chat & notifications in the app' },
-    { key: 'support', title: 'App support', desc: `Call ${SITE_INFO.phone} or email ${SITE_INFO.email}` },
+    { key: 'support', title: 'App support', desc: `Email ${SITE_INFO.email} or use in-app Help & Support` },
   ] as const,
   finalCta: {
     badge: 'Get started',

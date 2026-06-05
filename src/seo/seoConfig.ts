@@ -66,7 +66,7 @@ export const PAGE_SEO: Record<string, PageSeoMeta> = {
   '/contact': {
     title: 'Contact Liftoo — Patna, Bihar, India',
     description:
-      `Contact Liftoo in Patna, Bihar, India. Email ${SITE_INFO.email}, call ${SITE_INFO.phone} or use in-app support for booking and assistant queries.`,
+      `Contact Liftoo in Patna, Bihar, India. Email ${SITE_INFO.email} or use in-app support for booking and assistant queries.`,
     keywords: `${BASE_KEYWORDS}, contact Liftoo Patna`,
     path: '/contact',
   },

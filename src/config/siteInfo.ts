@@ -5,7 +5,6 @@ export const SITE_INFO = {
   displayAddress: 'Patna, Bihar, India',
   shortAddress: 'Patna, Bihar',
   email: 'contact@liftoo.in',
-  phone: '+919470024607',
   serviceArea: 'Patna and nearby areas in Bihar',
   siteUrl: import.meta.env.VITE_SITE_URL ?? 'https://liftoo.in',
   playStoreUrl:

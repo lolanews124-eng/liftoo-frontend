@@ -2764,7 +2764,20 @@
   flex-shrink: 0;
   color: #fda4c8;
 }
-.site-logo-footer { color: white; margin-bottom: 4px; }
+.site-footer .site-logo {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.site-footer .site-logo:hover {
+  color: white;
+}
+.site-logo-footer {
+  color: white;
+  margin-bottom: 0;
+}
 .site-footer-links {
   display: grid;
   grid-template-columns: 1fr;

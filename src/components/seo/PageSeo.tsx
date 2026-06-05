@@ -77,7 +77,6 @@ export function PageSeo({ title, description, keywords, path, ogType = 'website'
       url: SITE_INFO.siteUrl,
       logo: absoluteUrl('/favicon.png'),
       email: SITE_INFO.email,
-      telephone: SITE_INFO.phone,
       address: {
         '@type': 'PostalAddress',
         addressLocality: SITE_INFO.city,
@@ -99,7 +98,6 @@ export function PageSeo({ title, description, keywords, path, ogType = 'website'
       description,
       url,
       image: absoluteUrl('/hero-promo.png'),
-      telephone: SITE_INFO.phone,
       email: SITE_INFO.email,
       address: {
         '@type': 'PostalAddress',
