@@ -1,4 +1,4 @@
-import { AuthLoginCta } from './AuthCta';
+import { MarketingCta } from './MarketingCta';
 import type { Category } from '../../api/types';
 import {
   categoryDescription,
@@ -40,9 +40,9 @@ export function ServicesGrid({ categories, variant = 'landing', showCta = false 
 
         if (showCta) {
           return (
-            <AuthLoginCta key={c.id} className="site-service-card-v2">
+            <MarketingCta key={c.id} className="site-service-card-v2">
               {card}
-            </AuthLoginCta>
+            </MarketingCta>
           );
         }
 

@@ -8,7 +8,7 @@ export function HowItWorksPage() {
         pill="How it works"
         title="Your assistant, start to finish"
         lead="Whether you use the website or Android app, the experience is the same — book, track, pay when done."
-        cta={{ label: 'Book your first assistant', to: '/auth/login' }}
+        cta={{ label: 'Download app', to: '/auth/login' }}
       />
       <div className="site-page">
         <div className="site-container">

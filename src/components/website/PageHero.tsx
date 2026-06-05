@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-import { WEB_AUTH_ENABLED } from '../../config/features';
-import { AuthHeroCta } from './AuthCta';
+import { MarketingCta } from './MarketingCta';
 
 interface PageHeroProps {
   pill: string;
@@ -18,11 +17,11 @@ export function PageHero({ pill, title, lead, cta }: PageHeroProps) {
         <h1>{title}</h1>
         <p className="page-hero-lead">{lead}</p>
         {cta &&
-          (cta.to === '/auth/login' && !WEB_AUTH_ENABLED ? (
-            <AuthHeroCta className="site-btn-primary">
+          (cta.to === '/auth/login' ? (
+            <MarketingCta className="site-btn-primary" variant="hero">
               {cta.label}
               <span className="site-btn-arrow">→</span>
-            </AuthHeroCta>
+            </MarketingCta>
           ) : (
             <Link to={cta.to} className="site-btn-primary">
               {cta.label}

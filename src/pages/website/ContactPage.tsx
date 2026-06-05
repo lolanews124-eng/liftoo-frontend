@@ -1,5 +1,30 @@
-import { AuthLoginCta } from '../../components/website/AuthCta';
+import { Mail, MapPin, MessageCircle, Send } from 'lucide-react';
+import { PlayStoreCta } from '../../components/website/PlayStoreCta';
 import { PageHero } from '../../components/website/PageHero';
+import { SITE_INFO } from '../../config/siteInfo';
+
+const CONTACT_ITEMS = [
+  {
+    icon: MapPin,
+    title: 'Office address',
+    highlight: SITE_INFO.fullAddress,
+    detail: `We are based in ${SITE_INFO.shortAddress}. Service available across ${SITE_INFO.serviceArea}.`,
+  },
+  {
+    icon: Mail,
+    title: 'Email us',
+    highlight: SITE_INFO.email,
+    detail: 'We respond within 24 hours on business days.',
+    href: `mailto:${SITE_INFO.email}`,
+  },
+  {
+    icon: MessageCircle,
+    title: 'In-app support',
+    highlight: 'Help & support',
+    detail: 'Logged-in customers can open a ticket from profile in the app or web.',
+    cta: true,
+  },
+] as const;
 
 export function ContactPage() {
   return (
@@ -7,55 +32,76 @@ export function ContactPage() {
       <PageHero
         pill="Contact"
         title="We're here to help"
-        lead="Questions about booking, payments, or becoming an assistant? Reach out anytime."
+        lead={`Based in ${SITE_INFO.shortAddress}. Questions about booking, payments, or becoming an assistant? Reach out anytime.`}
       />
       <div className="site-page">
         <div className="site-container">
-          <div className="site-contact-grid">
-            <div className="site-contact-card-v2">
-              <span className="icon">✉️</span>
-              <h3>Email</h3>
-              <a href="mailto:contact@liftoo.in">contact@liftoo.in</a>
-              <p>We respond within 24 hours on business days.</p>
+          <div className="site-contact-address-banner">
+            <div className="site-contact-address-icon" aria-hidden>
+              <MapPin />
             </div>
-            <div className="site-contact-card-v2">
-              <span className="icon">💬</span>
-              <h3>In-app support</h3>
-              <p>Logged-in customers can open Help & support from profile.</p>
-              <AuthLoginCta className="site-text-link">Log in →</AuthLoginCta>
-            </div>
-            <div className="site-contact-card-v2">
-              <span className="icon">📍</span>
-              <h3>Service areas</h3>
-              <p>Mumbai, Pune, Delhi NCR and expanding. Check availability when you book.</p>
+            <div>
+              <p className="site-contact-address-label">Our location</p>
+              <h2>{SITE_INFO.shortAddress}</h2>
+              <p>{SITE_INFO.addressLine}, {SITE_INFO.state} {SITE_INFO.pincode}, {SITE_INFO.country}</p>
             </div>
           </div>
-          <form
-            className="site-contact-form-v2"
-            onSubmit={(e) => {
-              e.preventDefault();
-              window.location.href = 'mailto:contact@liftoo.in?subject=Liftoo%20inquiry';
-            }}
-          >
-            <h2 style={{ margin: '0 0 24px', fontSize: 22 }}>Send a message</h2>
-            <div className="site-form-row">
-              <label className="field">
-                <span>Name</span>
-                <input type="text" required placeholder="Your name" />
-              </label>
-              <label className="field">
-                <span>Email</span>
-                <input type="email" required placeholder="you@example.com" />
-              </label>
+
+          <div className="site-contact-layout">
+            <div className="site-contact-cards">
+              {CONTACT_ITEMS.map(({ icon: Icon, title, highlight, detail, ...rest }) => (
+                <article key={title} className="site-contact-card-v2">
+                  <div className="site-contact-card-icon">
+                    <Icon aria-hidden />
+                  </div>
+                  <h3>{title}</h3>
+                  {'href' in rest && rest.href ? (
+                    <a href={rest.href}>{highlight}</a>
+                  ) : 'cta' in rest && rest.cta ? (
+                    <PlayStoreCta className="site-text-link">{highlight} →</PlayStoreCta>
+                  ) : (
+                    <p className="site-contact-highlight">{highlight}</p>
+                  )}
+                  <p>{detail}</p>
+                </article>
+              ))}
             </div>
-            <label className="field">
-              <span>Message</span>
-              <textarea rows={4} required placeholder="How can we help?" />
-            </label>
-            <button type="submit" className="site-btn-primary" style={{ marginTop: 8 }}>
-              Send via email
-            </button>
-          </form>
+
+            <form
+              className="site-contact-form-v2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                window.location.href = `mailto:${SITE_INFO.email}?subject=Liftoo%20inquiry`;
+              }}
+            >
+              <div className="site-contact-form-head">
+                <div className="site-contact-form-icon" aria-hidden>
+                  <Send />
+                </div>
+                <div>
+                  <h2>Send a message</h2>
+                  <p>Tell us how we can help — we&apos;ll get back to you from {SITE_INFO.shortAddress}.</p>
+                </div>
+              </div>
+              <div className="site-form-row">
+                <label className="field">
+                  <span>Name</span>
+                  <input type="text" required placeholder="Your name" />
+                </label>
+                <label className="field">
+                  <span>Email</span>
+                  <input type="email" required placeholder="you@example.com" />
+                </label>
+              </div>
+              <label className="field">
+                <span>Message</span>
+                <textarea rows={5} required placeholder="How can we help?" />
+              </label>
+              <button type="submit" className="site-btn-primary site-contact-submit">
+                Send via email
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </>

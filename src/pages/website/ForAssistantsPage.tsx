@@ -1,4 +1,5 @@
 import { PageHero } from '../../components/website/PageHero';
+import { PlayStoreCta } from '../../components/website/PlayStoreCta';
 
 const PERKS = [
   { title: 'Flexible hours', desc: 'Go online when you want. Accept jobs near you.', icon: '🕐' },
@@ -14,7 +15,7 @@ export function ForAssistantsPage() {
         pill="For assistants"
         title="Earn helping people shop"
         lead="Join Liftoo as a verified shopping assistant. Use the mobile app to go online, accept jobs, and track earnings."
-        cta={{ label: 'Sign up to get started', to: '/auth/login' }}
+        cta={{ label: 'Download app', to: '/auth/login' }}
       />
       <div className="site-page">
         <div className="site-container">
@@ -36,9 +37,12 @@ export function ForAssistantsPage() {
               <li>Go online and accept nearby booking requests.</li>
             </ol>
           </div>
-          <p style={{ marginTop: 24, color: 'var(--site-muted)', fontSize: 15 }}>
-            <strong>Note:</strong> Assistant features run in the Liftoo mobile app. Customer booking is on this website.
-          </p>
+          <div style={{ marginTop: 24, display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+            <PlayStoreCta className="site-btn-primary">Download on Google Play</PlayStoreCta>
+            <p style={{ margin: 0, color: 'var(--site-muted)', fontSize: 15 }}>
+              <strong>Note:</strong> Assistant and customer features run in the Liftoo Android app.
+            </p>
+          </div>
         </div>
       </div>
     </>

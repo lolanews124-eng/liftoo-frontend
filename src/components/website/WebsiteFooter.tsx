@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
-import { AuthLoginCta } from './AuthCta';
+import { MapPin } from 'lucide-react';
+import { SITE_INFO } from '../../config/siteInfo';
+import { PlayStoreCta } from './PlayStoreCta';
 
 export function WebsiteFooter() {
   return (
@@ -13,19 +15,23 @@ export function WebsiteFooter() {
               Lif<span>too</span>
             </Link>
             <p>
-              India&apos;s on-demand shopping assistant platform. Book help at malls, markets and more —
-              pay when the job is done.
+              On-demand shopping assistant in {SITE_INFO.shortAddress}. Book help at malls, markets and
+              more — pay when the job is done.
             </p>
-            <AuthLoginCta className="site-btn-primary site-btn-sm">
-              Book now
-            </AuthLoginCta>
+            <p className="site-footer-address">
+              <MapPin className="site-footer-address-icon" aria-hidden />
+              <span>{SITE_INFO.fullAddress}</span>
+            </p>
+            <PlayStoreCta className="site-btn-primary site-btn-sm">
+              Download app
+            </PlayStoreCta>
           </div>
           <div className="site-footer-links">
             <div>
               <h4>Product</h4>
               <Link to="/services">Services</Link>
               <Link to="/how-it-works">How it works</Link>
-              <AuthLoginCta>Customer app</AuthLoginCta>
+              <PlayStoreCta>Download app</PlayStoreCta>
             </div>
             <div>
               <h4>Company</h4>

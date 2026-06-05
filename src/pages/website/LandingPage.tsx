@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { AuthLoginCta } from '../../components/website/AuthCta';
+import { MarketingCta } from '../../components/website/MarketingCta';
 import { ServicesGrid, ServicesGridSkeleton } from '../../components/website/ServicesGrid';
 import { useCategories } from '../../hooks/useCategories';
+import { PATNA_VENUES, SITE_INFO } from '../../config/siteInfo';
 import { formatHourlyRate, minHourlyRate } from '../../utils/serviceCatalog';
 import {
   ShoppingBag,
@@ -19,44 +20,29 @@ import {
 } from 'lucide-react';
 
 const HERO_IMG =
-  'https://images.unsplash.com/photo-1555529669-2269763671c0?w=1280&h=1600&fit=crop&q=80';
+  'https://images.unsplash.com/photo-1555529669-2269763671c0?w=800&h=600&fit=crop&q=80';
 const SENIOR_IMG =
   'https://images.unsplash.com/photo-1581579438747-1dc8d17bb4ec?w=1024&h=768&fit=crop&q=80';
 const HANDS_FREE_IMG =
   'https://images.unsplash.com/photo-1483985988350-763728e3685b?w=1280&h=960&fit=crop&q=80';
 
-const malls = [
-  'Phoenix Marketcity',
-  'DLF Mall of India',
-  'Inorbit Mall',
-  'Select CITYWALK',
-  'Forum Mall',
-  'Oberoi Mall',
-  'Pacific Mall',
-  'Ambience Mall',
-  'VR Mall',
-  'Quest Mall',
-  'Lulu Mall',
-  'R City',
-];
-
 const testimonials = [
   {
-    name: 'Anjali Mehta',
-    where: 'Mumbai • Phoenix Marketcity',
+    name: 'Anjali Singh',
+    where: 'Patna • P&M Mall',
     text: 'Diwali shopping with two toddlers used to be a nightmare. My Liftoo assistant carried everything and even held my coffee. Genuinely life-changing.',
     stars: 5,
   },
   {
-    name: 'Ravi Iyer',
-    where: 'Bangalore • Forum Mall',
+    name: 'Ravi Kumar',
+    where: 'Patna • City Centre Mall',
     text: "Booked for my parents — they call it their 'mall friend' now. Polite, on-time, and so helpful with senior shopping.",
     stars: 5,
   },
   {
     name: 'Sneha Kapoor',
-    where: 'Delhi • Select CITYWALK',
-    text: 'Sale day at Zara without standing in the queue? Yes please. Liftoo paid for itself in saved time.',
+    where: 'Patna • Boring Road',
+    text: 'Sale day without standing in the queue? Yes please. Liftoo paid for itself in saved time.',
     stars: 5,
   },
 ];
@@ -77,7 +63,7 @@ export function LandingPage() {
               <span className="lp-pulse-ring" aria-hidden>
                 <span className="lp-pulse-dot" />
               </span>
-              200+ assistants live near you
+              Assistants live in {SITE_INFO.city}
             </span>
             <h1 className="lp-hero-title">
               Shopping karo,
@@ -89,10 +75,10 @@ export function LandingPage() {
               stand in queues, and help your parents and kids enjoy the day.
             </p>
             <div className="lp-hero-cta">
-              <AuthLoginCta className="lp-btn-gradient">
-                Book an assistant
+              <MarketingCta className="lp-btn-gradient">
+                Download app
                 <ArrowRight className="lp-icon-sm lp-btn-arrow" aria-hidden />
-              </AuthLoginCta>
+              </MarketingCta>
               <Link to="/how-it-works" className="lp-btn-outline">
                 See how it works
               </Link>
@@ -120,8 +106,8 @@ export function LandingPage() {
               <img
                 src={HERO_IMG}
                 alt="Liftoo assistant carrying shopping bags with a happy family"
-                width={1280}
-                height={1600}
+                width={800}
+                height={600}
                 className="lp-hero-image"
               />
             </div>
@@ -149,10 +135,10 @@ export function LandingPage() {
 
       {/* MALL MARQUEE */}
       <section className="lp-marquee-section">
-        <p className="lp-marquee-label">Available at India&apos;s best malls</p>
+        <p className="lp-marquee-label">Available at {SITE_INFO.city}&apos;s best malls &amp; markets</p>
         <div className="lp-marquee-wrap">
           <div className="lp-marquee-track">
-            {[...malls, ...malls].map((m, i) => (
+            {[...PATNA_VENUES, ...PATNA_VENUES].map((m, i) => (
               <span key={`${m}-${i}`} className="lp-marquee-item">
                 {m}
               </span>
@@ -238,7 +224,7 @@ export function LandingPage() {
               [
                 ['12K+', 'Happy shoppers'],
                 ['200+', 'Trained assistants'],
-                ['35', 'Malls covered'],
+                ['10+', `${SITE_INFO.city} venues`],
                 ['4.9★', 'Average rating'],
               ] as const
             ).map(([n, l]) => (
@@ -263,7 +249,7 @@ export function LandingPage() {
           </div>
           <div className="lp-steps-grid">
             {[
-              { n: '01', icon: MapPin, t: 'Pick your mall', d: 'Choose from 35+ premium locations across India.' },
+              { n: '01', icon: MapPin, t: 'Pick your venue', d: `Choose from top malls and markets across ${SITE_INFO.city}.` },
               {
                 n: '02',
                 icon: ShoppingBag,
@@ -418,9 +404,9 @@ export function LandingPage() {
                 the chai stop.
               </p>
               <div className="lp-final-actions">
-                <AuthLoginCta className="lp-btn-white">
-                  Book your first assistant <ArrowRight className="lp-icon-sm" aria-hidden />
-                </AuthLoginCta>
+                <MarketingCta className="lp-btn-white">
+                  Download on Play Store <ArrowRight className="lp-icon-sm" aria-hidden />
+                </MarketingCta>
                 <Link to="/contact" className="lp-btn-ghost">
                   Have a question?
                 </Link>

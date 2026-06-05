@@ -13,7 +13,7 @@ export const STATS = [
 ];
 
 export const TESTIMONIALS = [
-  { quote: 'Festival shopping used to exhaust me. Liftoo assistant carried everything — game changer.', name: 'Priya S.', city: 'Mumbai' },
-  { quote: 'Booked for my mother at the hospital mall. Polite, on time, very professional.', name: 'Rahul M.', city: 'Pune' },
-  { quote: 'Queue at the sale was 2 hours. Assistant waited — I grabbed lunch and came back relaxed.', name: 'Anita K.', city: 'Delhi' },
+  { quote: 'Festival shopping used to exhaust me. Liftoo assistant carried everything — game changer.', name: 'Priya S.', city: 'Patna' },
+  { quote: 'Booked for my mother at the mall. Polite, on time, very professional.', name: 'Rahul M.', city: 'Patna' },
+  { quote: 'Queue at the sale was 2 hours. Assistant waited — I grabbed lunch and came back relaxed.', name: 'Anita K.', city: 'Patna' },
 ];

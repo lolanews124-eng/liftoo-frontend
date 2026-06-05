@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 import { WEB_AUTH_ENABLED } from '../../config/features';
 import { AuthLoginCta } from './AuthCta';
+import { PlayStoreCta } from './PlayStoreCta';
 
 const NAV = [
   { to: '/', label: 'Home', end: true },
@@ -61,7 +62,7 @@ export function WebsiteHeader() {
             <Link to="/app" className="site-btn-primary site-btn-sm" onClick={() => setOpen(false)}>
               Open app
             </Link>
-          ) : (
+          ) : WEB_AUTH_ENABLED ? (
             <>
               <AuthLoginCta className="site-nav-login" onClick={() => setOpen(false)}>
                 Log in
@@ -70,6 +71,10 @@ export function WebsiteHeader() {
                 Get started
               </AuthLoginCta>
             </>
+          ) : (
+            <PlayStoreCta className="site-btn-primary site-btn-sm" onClick={() => setOpen(false)}>
+              Download app
+            </PlayStoreCta>
           )}
         </div>
       </div>

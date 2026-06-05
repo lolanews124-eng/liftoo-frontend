@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
-import { AuthLoginCta } from '../../components/website/AuthCta';
+import { MarketingCta } from '../../components/website/MarketingCta';
 import { PageHero } from '../../components/website/PageHero';
+import { SITE_INFO } from '../../config/siteInfo';
 
 const VALUES = [
   { icon: '🛡️', title: 'Trust first', desc: 'KYC-verified assistants, admin oversight, transparent pricing.' },
   { icon: '⚡', title: 'On-demand', desc: 'Book when you need help — not days in advance.' },
   { icon: '💳', title: 'Fair payments', desc: 'Customers pay after service; assistants earn when jobs are paid.' },
-  { icon: '🤝', title: 'Local jobs', desc: 'Flexible earning opportunities in your city.' },
+  { icon: '🤝', title: 'Local jobs', desc: `Flexible earning opportunities in ${SITE_INFO.city} and nearby areas.` },
 ];
 
 export function AboutPage() {
@@ -15,7 +16,7 @@ export function AboutPage() {
       <PageHero
         pill="About Liftoo"
         title="Shopping should feel light"
-        lead="We connect people who need an extra pair of hands with verified local assistants who want meaningful, flexible work."
+        lead={`Based in ${SITE_INFO.shortAddress}, we connect people who need an extra pair of hands with verified local assistants who want meaningful, flexible work.`}
       />
       <div className="site-page">
         <div className="site-container">
@@ -49,7 +50,7 @@ export function AboutPage() {
           </div>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <Link to="/contact" className="site-btn-glass">Contact us</Link>
-            <AuthLoginCta className="site-btn-primary">Start booking</AuthLoginCta>
+            <MarketingCta className="site-btn-primary">Download app</MarketingCta>
           </div>
         </div>
       </div>
