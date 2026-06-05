@@ -37,10 +37,7 @@
 
 /* ─── Typography utilities ─── */
 .text-gradient {
-  background: linear-gradient(120deg, var(--site-pink) 0%, var(--site-violet) 50%, var(--site-coral) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--site-pink);
 }
 
 .site-pill {
@@ -318,13 +315,7 @@
 }
 
 .lp-text-gradient {
-  display: inline-block;
-  padding-bottom: 0.1em;
-  line-height: 1.25;
-  background: linear-gradient(135deg, var(--lp-pink), #e6005a);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--lp-pink);
 }
 
 .lp-grid-dots {
@@ -1173,10 +1164,7 @@
   margin: 0;
   font-size: clamp(2.25rem, 4vw, 3rem);
   font-weight: 800;
-  background: linear-gradient(135deg, var(--lp-pink), #ff6b9d);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #fda4c8;
 }
 .lp-stat-label {
   margin: 4px 0 0;
