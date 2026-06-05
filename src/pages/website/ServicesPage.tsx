@@ -1,5 +1,6 @@
 import { PageHero } from '../../components/website/PageHero';
 import { ServicesGrid, ServicesGridSkeleton } from '../../components/website/ServicesGrid';
+import { SITE_INFO } from '../../config/siteInfo';
 import { useCategories } from '../../hooks/useCategories';
 import { formatHourlyRate, minHourlyRate } from '../../utils/serviceCatalog';
 
@@ -23,7 +24,13 @@ export function ServicesPage() {
           <div className="site-services-intro">
             <p>
               Same services as the Liftoo app — book bag carry, queue help, family support, senior
-              assistance or festival shopping. Rates update live from our platform.
+              assistance or festival shopping in {SITE_INFO.displayAddress}. Rates update live from our
+              platform and are shown per hour before you confirm in the app.
+            </p>
+            <p style={{ marginTop: 14 }}>
+              Whether you are shopping at P&amp;M Mall, City Centre Mall, Maurya Lok or a local market in
+              Patna, Liftoo connects you with KYC-verified assistants who help carry bags, wait in queues
+              and support family or senior outings — pay only when the service is done.
             </p>
           </div>
 

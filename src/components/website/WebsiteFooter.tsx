@@ -13,12 +13,12 @@ export function WebsiteFooter() {
           <div className="site-footer-brand">
             <WebsiteLogo variant="footer" />
             <p>
-              On-demand shopping assistant in {SITE_INFO.shortAddress}. Book help at malls, markets and
+              On-demand shopping assistant in {SITE_INFO.displayAddress}. Book help at malls, markets and
               more — pay when the job is done.
             </p>
             <p className="site-footer-address">
               <MapPin className="site-footer-address-icon" aria-hidden />
-              <span>{SITE_INFO.fullAddress}</span>
+              <span>{SITE_INFO.displayAddress}</span>
             </p>
             <PlayStoreCta className="site-btn-primary site-btn-sm">
               Download app
@@ -46,7 +46,19 @@ export function WebsiteFooter() {
           </div>
         </div>
         <div className="site-footer-bottom">
-          <span>© {new Date().getFullYear()} Liftoo Technologies</span>
+          <div className="site-footer-bottom-meta">
+            <span>© {new Date().getFullYear()} Liftoo</span>
+            <span className="site-footer-golax">
+              A Product of{' '}
+              <a
+                href="https://www.golaxindia.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GOLAX
+              </a>
+            </span>
+          </div>
           <a href="mailto:contact@liftoo.in">contact@liftoo.in</a>
         </div>
       </div>

@@ -2,13 +2,12 @@ export const SITE_INFO = {
   city: 'Patna',
   state: 'Bihar',
   country: 'India',
-  pincode: '800027',
-  addressLine: '106, Vidya Complex, Ramkrishna Nagar Bypass, Near Hotel Sidh Vedanta',
-  fullAddress: '106, Vidya Complex, Ramkrishna Nagar Bypass, Patna, Bihar 800027, India',
+  displayAddress: 'Patna, Bihar, India',
   shortAddress: 'Patna, Bihar',
   email: 'contact@liftoo.in',
   phone: '+919470024607',
   serviceArea: 'Patna and nearby areas in Bihar',
+  siteUrl: import.meta.env.VITE_SITE_URL ?? 'https://liftoo.in',
   playStoreUrl:
     'https://play.google.com/store/apps/details?id=com.liftoo.liftoo_mobile&pcampaignid=web_share',
 } as const;

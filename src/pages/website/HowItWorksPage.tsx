@@ -1,4 +1,6 @@
 import { PageHero } from '../../components/website/PageHero';
+import { SeoFaqSection } from '../../components/website/SeoFaqSection';
+import { SITE_INFO } from '../../config/siteInfo';
 import { STEPS } from './websiteData';
 
 export function HowItWorksPage() {
@@ -23,22 +25,22 @@ export function HowItWorksPage() {
               </article>
             ))}
           </div>
-          <div className="site-faq-grid">
-            <div className="site-faq-card">
-              <h3>When do I pay?</h3>
-              <p>Only after the assistant marks the job complete. No upfront booking fee.</p>
-            </div>
-            <div className="site-faq-card">
-              <h3>Can I cancel?</h3>
-              <p>Free cancellation within the window shown at booking; late cancel may have a small fee.</p>
-            </div>
-            <div className="site-faq-card">
-              <h3>Are assistants verified?</h3>
-              <p>Every assistant completes KYC and admin verification before taking jobs.</p>
-            </div>
+          <div className="site-seo-content-card" style={{ marginTop: 40 }}>
+            <h2>How Liftoo works in {SITE_INFO.displayAddress}</h2>
+            <p>
+              Liftoo is an on-demand shopping assistant platform built for {SITE_INFO.city} shoppers.
+              Download the Android app, select your venue — P&amp;M Mall, City Centre, Boring Road or any
+              supported location — and book bag carry, queue help, family or senior assistance in minutes.
+            </p>
+            <p>
+              Your assistant is matched in real time, you track them on a live map, chat in-app and confirm
+              start with OTP. Payment happens only after the job is complete via wallet, UPI or cash. No web
+              booking — everything runs inside the Liftoo app for a secure, transparent experience.
+            </p>
           </div>
         </div>
       </div>
+      <SeoFaqSection />
     </>
   );
 }

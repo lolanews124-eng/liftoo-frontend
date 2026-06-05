@@ -16,7 +16,7 @@ export function AboutPage() {
       <PageHero
         pill="About Liftoo"
         title="Shopping should feel light"
-        lead={`Based in ${SITE_INFO.shortAddress}, we connect people who need an extra pair of hands with verified local assistants who want meaningful, flexible work.`}
+        lead={`Based in ${SITE_INFO.displayAddress}, we connect people who need an extra pair of hands with verified local assistants who want meaningful, flexible work.`}
       />
       <div className="site-page">
         <div className="site-container">

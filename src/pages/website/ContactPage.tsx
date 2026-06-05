@@ -7,8 +7,8 @@ const CONTACT_ITEMS = [
   {
     icon: MapPin,
     title: 'Office address',
-    highlight: SITE_INFO.fullAddress,
-    detail: `We are based in ${SITE_INFO.shortAddress}. Service available across ${SITE_INFO.serviceArea}.`,
+    highlight: SITE_INFO.displayAddress,
+    detail: `Service available across ${SITE_INFO.serviceArea}.`,
   },
   {
     icon: Mail,
@@ -39,7 +39,7 @@ export function ContactPage() {
       <PageHero
         pill="Contact"
         title="We're here to help"
-        lead={`Based in ${SITE_INFO.shortAddress}. Questions about booking, payments, or becoming an assistant? Reach out anytime.`}
+        lead={`Based in ${SITE_INFO.displayAddress}. Questions about booking, payments, or becoming an assistant? Reach out anytime.`}
       />
       <div className="site-page">
         <div className="site-container">
@@ -49,8 +49,8 @@ export function ContactPage() {
             </div>
             <div>
               <p className="site-contact-address-label">Our location</p>
-              <h2>{SITE_INFO.shortAddress}</h2>
-              <p>{SITE_INFO.addressLine}, {SITE_INFO.state} {SITE_INFO.pincode}, {SITE_INFO.country}</p>
+              <h2>{SITE_INFO.displayAddress}</h2>
+              <p>{SITE_INFO.serviceArea}</p>
             </div>
           </div>
 
@@ -87,7 +87,7 @@ export function ContactPage() {
                 </div>
                 <div>
                   <h2>Send a message</h2>
-                  <p>Tell us how we can help — we&apos;ll get back to you from {SITE_INFO.shortAddress}.</p>
+                  <p>Tell us how we can help — we&apos;ll get back to you from {SITE_INFO.displayAddress}.</p>
                 </div>
               </div>
               <div className="site-form-row">

@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { MarketingCta } from '../../components/website/MarketingCta';
+import { SeoContentSection } from '../../components/website/SeoContentSection';
+import { SeoFaqSection } from '../../components/website/SeoFaqSection';
 import { ServicesGrid, ServicesGridSkeleton } from '../../components/website/ServicesGrid';
 import { WEBSITE_COPY } from '../../config/websiteContent';
 import { useCategories } from '../../hooks/useCategories';
@@ -223,7 +225,7 @@ export function LandingPage() {
           </div>
           <div className="lp-steps-grid">
             {[
-              { n: '01', icon: MapPin, t: 'Pick location', d: `Choose a mall or market in ${SITE_INFO.city}.` },
+              { n: '01', icon: MapPin, t: 'Pick location', d: `Choose a mall or market in ${SITE_INFO.displayAddress}.` },
               {
                 n: '02',
                 icon: ShoppingBag,
@@ -353,6 +355,9 @@ export function LandingPage() {
           </div>
         </div>
       </section>
+
+      <SeoContentSection />
+      <SeoFaqSection />
 
       <section className="lp-section lp-section-final">
         <div className="lp-container">
