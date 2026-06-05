@@ -1,6 +1,12 @@
-import { FAQ_ITEMS } from '../../seo/seoConfig';
+import { useLocation } from 'react-router-dom';
+import { getFaqsForPath } from '../../seo/seoConfig';
 
 export function SeoFaqSection() {
+  const { pathname } = useLocation();
+  const faqs = getFaqsForPath(pathname);
+
+  if (!faqs.length) return null;
+
   return (
     <section className="lp-section lp-section-tight" aria-labelledby="faq-heading">
       <div className="lp-container">
@@ -14,7 +20,7 @@ export function SeoFaqSection() {
           </p>
         </div>
         <div className="site-faq-grid site-faq-grid-wide">
-          {FAQ_ITEMS.map((item) => (
+          {faqs.map((item) => (
             <article key={item.question} className="site-faq-card">
               <h3>{item.question}</h3>
               <p>{item.answer}</p>

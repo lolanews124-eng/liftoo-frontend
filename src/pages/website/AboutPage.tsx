@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { MarketingCta } from '../../components/website/MarketingCta';
 import { PageHero } from '../../components/website/PageHero';
+import { SeoContentSection } from '../../components/website/SeoContentSection';
+import { SeoFaqSection } from '../../components/website/SeoFaqSection';
 import { SITE_INFO } from '../../config/siteInfo';
 
 const VALUES = [
@@ -54,6 +56,8 @@ export function AboutPage() {
           </div>
         </div>
       </div>
+      <SeoContentSection variant="about" />
+      <SeoFaqSection />
     </>
   );
 }

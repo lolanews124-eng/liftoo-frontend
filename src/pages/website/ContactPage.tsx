@@ -1,6 +1,8 @@
 import { Mail, MapPin, MessageCircle, Send } from 'lucide-react';
 import { PlayStoreCta } from '../../components/website/PlayStoreCta';
 import { PageHero } from '../../components/website/PageHero';
+import { SeoContentSection } from '../../components/website/SeoContentSection';
+import { SeoFaqSection } from '../../components/website/SeoFaqSection';
 import { SITE_INFO } from '../../config/siteInfo';
 
 const CONTACT_ITEMS = [
@@ -104,6 +106,8 @@ export function ContactPage() {
           </div>
         </div>
       </div>
+      <SeoContentSection variant="contact" />
+      <SeoFaqSection />
     </>
   );
 }

@@ -1,0 +1,72 @@
+# Liftoo
+
+> Personal shopping assistant app in Patna, Bihar, India
+
+Liftoo is an on-demand platform that connects shoppers in Patna with KYC-verified assistants for malls, markets and family outings. Book via the Android app; pay only after service.
+
+## Location
+
+- City: Patna
+- State: Bihar
+- Country: India
+- Service area: Patna and nearby areas in Bihar
+- Coordinates: 25.5941, 85.1376
+
+## Services
+
+1. Bag carry assistance — assistant carries shopping bags while you browse
+2. Queue assistance — assistant waits in billing or service queues
+3. Family shopping help — support for family outings and group shopping
+4. Senior citizen help — trusted assistance for parents and seniors, trackable in-app
+5. Festival shopping — help during exhibitions, festivals and busy market days
+
+## How booking works
+
+1. Download Liftoo from Google Play (Android)
+2. Sign up and choose a location in Patna (mall or market)
+3. Pick a service and duration (30 min to 4 hours)
+4. Track assistant live on map with in-app chat and OTP start
+5. Pay after job completion via wallet, UPI or cash
+
+## Key facts
+
+- Assistants are KYC-verified before taking jobs
+- Transparent hourly rates shown in app before booking
+- No upfront booking fee
+- Based in Patna, Bihar, India
+- Product of GOLAX (https://www.golaxindia.com)
+- Legal entity: DLEAFTECH PRIVATE LIMITED
+
+## Popular venues in Patna
+
+P&M Mall, City Centre Mall, Unity One Mall, Maurya Lok, Patna One, Boring Road Market, Fraser Road, Khaitan Market, Patliputra Colony, Kankarbagh Market, Bailey Road, Hartali More
+
+## Contact
+
+- Email: contact@liftoo.in
+- In-app: Help & Support from profile
+
+## Important URLs
+
+- Website: https://liftoo.in/
+- Services: https://liftoo.in/services
+- How it works: https://liftoo.in/how-it-works
+- About: https://liftoo.in/about
+- For assistants: https://liftoo.in/for-assistants
+- Contact: https://liftoo.in/contact
+- Google Play: https://play.google.com/store/apps/details?id=com.liftoo.liftoo_mobile
+- Sitemap: https://liftoo.in/sitemap.xml
+
+## FAQ
+
+Q: What is Liftoo?
+A: A personal shopping assistant app in Patna, Bihar, India.
+
+Q: Where does Liftoo operate?
+A: Patna, Bihar, India — major malls and markets.
+
+Q: How much does it cost?
+A: Per-hour rates shown in the app; pay after service only.
+
+Q: Are assistants verified?
+A: Yes, KYC and admin verification required.

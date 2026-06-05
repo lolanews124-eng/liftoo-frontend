@@ -1,4 +1,6 @@
 import { PageHero } from '../../components/website/PageHero';
+import { SeoContentSection } from '../../components/website/SeoContentSection';
+import { SeoFaqSection } from '../../components/website/SeoFaqSection';
 import { ServicesGrid, ServicesGridSkeleton } from '../../components/website/ServicesGrid';
 import { SITE_INFO } from '../../config/siteInfo';
 import { useCategories } from '../../hooks/useCategories';
@@ -68,6 +70,8 @@ export function ServicesPage() {
           </div>
         </div>
       </div>
+      <SeoContentSection variant="services" />
+      <SeoFaqSection />
     </>
   );
 }

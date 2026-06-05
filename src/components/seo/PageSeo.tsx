@@ -1,6 +1,18 @@
 import { useEffect } from 'react';
-import { FAQ_ITEMS, absoluteUrl, type PageSeoMeta } from '../../seo/seoConfig';
-import { SITE_INFO } from '../../config/siteInfo';
+import { getBreadcrumbs, getFaqsForPath, absoluteUrl, type PageSeoMeta } from '../../seo/seoConfig';
+import {
+  GEO_META,
+  buildBreadcrumbSchema,
+  buildContactPageSchema,
+  buildFaqSchema,
+  buildHowToSchema,
+  buildLocalBusinessSchema,
+  buildMobileAppSchema,
+  buildOrganizationSchema,
+  buildServicesItemListSchema,
+  buildWebPageSchema,
+  buildWebsiteSchema,
+} from '../../seo/structuredData';
 
 const MANAGED_ATTR = 'data-liftoo-seo';
 
@@ -15,18 +27,29 @@ function upsertMeta(name: string, content: string, attr: 'name' | 'property' = '
   el.content = content;
 }
 
-function upsertLink(rel: string, href: string) {
-  let el = document.querySelector(`link[rel="${rel}"][${MANAGED_ATTR}]`) as HTMLLinkElement | null;
+function upsertLink(rel: string, href: string, attrs?: Record<string, string>) {
+  const attrKey = attrs ? JSON.stringify(attrs) : '';
+  let el = document.querySelector(
+    `link[rel="${rel}"][${MANAGED_ATTR}][data-attrs="${attrKey}"]`,
+  ) as HTMLLinkElement | null;
   if (!el) {
     el = document.createElement('link');
     el.rel = rel;
     el.setAttribute(MANAGED_ATTR, 'true');
+    el.setAttribute('data-attrs', attrKey);
     document.head.appendChild(el);
   }
   el.href = href;
+  if (attrs) {
+    Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+  }
 }
 
-function upsertJsonLd(id: string, data: object) {
+function upsertJsonLd(id: string, data: object | null) {
+  if (!data) {
+    document.getElementById(id)?.remove();
+    return;
+  }
   let el = document.getElementById(id) as HTMLScriptElement | null;
   if (!el) {
     el = document.createElement('script');
@@ -39,20 +62,30 @@ function upsertJsonLd(id: string, data: object) {
 }
 
 interface PageSeoProps extends PageSeoMeta {
-  includeFaq?: boolean;
+  pathname: string;
 }
 
-export function PageSeo({ title, description, keywords, path, ogType = 'website', includeFaq }: PageSeoProps) {
+export function PageSeo({ title, description, keywords, path, ogType = 'website', pathname }: PageSeoProps) {
   useEffect(() => {
     const url = absoluteUrl(path);
+    const faqs = getFaqsForPath(pathname);
+    const crumbs = getBreadcrumbs(pathname);
 
     document.title = title;
+    document.documentElement.lang = 'en-IN';
+
     upsertMeta('description', description);
     upsertMeta('keywords', keywords);
-    upsertMeta('robots', 'index, follow, max-image-preview:large');
+    upsertMeta('robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
     upsertMeta('author', 'Liftoo');
-    upsertMeta('geo.region', 'IN-BR');
-    upsertMeta('geo.placename', SITE_INFO.displayAddress);
+    upsertMeta('publisher', 'Liftoo');
+    upsertMeta('language', 'English');
+    upsertMeta('content-language', 'en-IN');
+
+    upsertMeta('geo.region', GEO_META.region);
+    upsertMeta('geo.placename', GEO_META.placename);
+    upsertMeta('geo.position', GEO_META.position);
+    upsertMeta('ICBM', GEO_META.icbm);
 
     upsertMeta('og:title', title, 'property');
     upsertMeta('og:description', description, 'property');
@@ -60,106 +93,52 @@ export function PageSeo({ title, description, keywords, path, ogType = 'website'
     upsertMeta('og:url', url, 'property');
     upsertMeta('og:site_name', 'Liftoo', 'property');
     upsertMeta('og:locale', 'en_IN', 'property');
+    upsertMeta('og:locale:alternate', 'hi_IN', 'property');
     upsertMeta('og:image', absoluteUrl('/hero-promo.png'), 'property');
+    upsertMeta('og:image:alt', 'Liftoo shopping assistant app in Patna, Bihar', 'property');
+    upsertMeta('og:image:width', '1024', 'property');
+    upsertMeta('og:image:height', '1024', 'property');
 
     upsertMeta('twitter:card', 'summary_large_image');
     upsertMeta('twitter:title', title);
     upsertMeta('twitter:description', description);
     upsertMeta('twitter:image', absoluteUrl('/hero-promo.png'));
+    upsertMeta('twitter:image:alt', 'Liftoo shopping assistant app in Patna, Bihar');
 
     upsertLink('canonical', url);
+    upsertLink('alternate', absoluteUrl('/llms.txt'), { type: 'text/plain', title: 'LLM content index' });
 
-    upsertJsonLd('liftoo-org-schema', {
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: 'Liftoo',
-      legalName: 'DLEAFTECH PRIVATE LIMITED',
-      url: SITE_INFO.siteUrl,
-      logo: absoluteUrl('/favicon.png'),
-      email: SITE_INFO.email,
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: SITE_INFO.city,
-        addressRegion: SITE_INFO.state,
-        addressCountry: SITE_INFO.country,
-      },
-      areaServed: {
-        '@type': 'City',
-        name: SITE_INFO.city,
-        containedInPlace: { '@type': 'State', name: SITE_INFO.state },
-      },
-      sameAs: [SITE_INFO.playStoreUrl],
-    });
+    upsertJsonLd('liftoo-org-schema', buildOrganizationSchema());
+    upsertJsonLd('liftoo-website-schema', buildWebsiteSchema());
+    upsertJsonLd('liftoo-webpage-schema', buildWebPageSchema({ title, description, keywords, path }, path));
+    upsertJsonLd('liftoo-breadcrumb-schema', crumbs.length > 1 ? buildBreadcrumbSchema(crumbs) : null);
+    upsertJsonLd('liftoo-faq-schema', buildFaqSchema(faqs));
+    upsertJsonLd('liftoo-app-schema', buildMobileAppSchema());
 
-    upsertJsonLd('liftoo-local-schema', {
-      '@context': 'https://schema.org',
-      '@type': 'LocalBusiness',
-      name: 'Liftoo — Personal Shopping Assistant',
-      description,
-      url,
-      image: absoluteUrl('/hero-promo.png'),
-      email: SITE_INFO.email,
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: SITE_INFO.city,
-        addressRegion: SITE_INFO.state,
-        addressCountry: SITE_INFO.country,
-      },
-      geo: {
-        '@type': 'GeoCoordinates',
-        latitude: 25.5941,
-        longitude: 85.1376,
-      },
-      areaServed: SITE_INFO.displayAddress,
-      priceRange: '₹₹',
-      openingHoursSpecification: {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-        opens: '09:00',
-        closes: '21:00',
-      },
-    });
-
-    upsertJsonLd('liftoo-website-schema', {
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      name: 'Liftoo',
-      url: SITE_INFO.siteUrl,
-      description: 'Personal shopping assistant app in Patna, Bihar, India',
-      potentialAction: {
-        '@type': 'SearchAction',
-        target: `${SITE_INFO.siteUrl}/services?q={search_term_string}`,
-        'query-input': 'required name=search_term_string',
-      },
-    });
-
-    upsertJsonLd('liftoo-app-schema', {
-      '@context': 'https://schema.org',
-      '@type': 'MobileApplication',
-      name: 'Liftoo - Shopping Assistant',
-      operatingSystem: 'Android',
-      applicationCategory: 'LifestyleApplication',
-      offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-      installUrl: SITE_INFO.playStoreUrl,
-      url: SITE_INFO.playStoreUrl,
-      description:
-        'Book verified shopping assistants in Patna for bag carry, queue help, family and senior support.',
-    });
-
-    if (includeFaq) {
-      upsertJsonLd('liftoo-faq-schema', {
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        mainEntity: FAQ_ITEMS.map((item) => ({
-          '@type': 'Question',
-          name: item.question,
-          acceptedAnswer: { '@type': 'Answer', text: item.answer },
-        })),
-      });
+    if (pathname === '/' || pathname === '/contact') {
+      upsertJsonLd('liftoo-local-schema', buildLocalBusinessSchema(description));
     } else {
-      document.getElementById('liftoo-faq-schema')?.remove();
+      upsertJsonLd('liftoo-local-schema', null);
     }
-  }, [title, description, keywords, path, ogType, includeFaq]);
+
+    if (pathname === '/how-it-works') {
+      upsertJsonLd('liftoo-howto-schema', buildHowToSchema());
+    } else {
+      upsertJsonLd('liftoo-howto-schema', null);
+    }
+
+    if (pathname === '/services') {
+      upsertJsonLd('liftoo-services-schema', buildServicesItemListSchema());
+    } else {
+      upsertJsonLd('liftoo-services-schema', null);
+    }
+
+    if (pathname === '/contact') {
+      upsertJsonLd('liftoo-contact-schema', buildContactPageSchema());
+    } else {
+      upsertJsonLd('liftoo-contact-schema', null);
+    }
+  }, [title, description, keywords, path, ogType, pathname]);
 
   return null;
 }

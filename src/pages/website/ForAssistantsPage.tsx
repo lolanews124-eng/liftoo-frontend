@@ -1,4 +1,6 @@
 import { PageHero } from '../../components/website/PageHero';
+import { SeoContentSection } from '../../components/website/SeoContentSection';
+import { SeoFaqSection } from '../../components/website/SeoFaqSection';
 import { PlayStoreCta } from '../../components/website/PlayStoreCta';
 
 const PERKS = [
@@ -45,6 +47,8 @@ export function ForAssistantsPage() {
           </div>
         </div>
       </div>
+      <SeoContentSection variant="assistants" />
+      <SeoFaqSection />
     </>
   );
 }
