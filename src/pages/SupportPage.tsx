@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { customerApi } from '../api/client';
 import type { SupportTicket } from '../api/types';
 import { NetworkErrorView, showError } from '../components/NetworkError';
+import { formatAppDateTime } from '../utils/formatDate';
 
 export function SupportPage() {
   const [tickets, setTickets] = useState<SupportTicket[]>([]);
@@ -95,7 +96,7 @@ export function SupportPage() {
             </div>
           )}
           <p style={{ margin: '8px 0 0', fontSize: 12, color: 'var(--muted)' }}>
-            {new Date(t.createdAt).toLocaleString()}
+            {formatAppDateTime(t.createdAt)}
           </p>
         </div>
       ))}

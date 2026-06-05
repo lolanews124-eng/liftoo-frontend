@@ -5,6 +5,7 @@ import type { Booking } from '../api/types';
 import { bookingNextStep, BOOKING_STATUS_LABEL, isBookingPaid, isPaymentPending } from '../api/types';
 import { NetworkErrorView, showError } from '../components/NetworkError';
 import { assistantCode, assistantSummary } from '../utils/assistantDisplay';
+import { formatAppDateTime } from '../utils/formatDate';
 import { AssistantAvailabilityCard } from '../components/AssistantAvailabilityCard';
 import { LiveTrackingMap } from '../components/LiveTrackingMap';
 import { useSocket } from '../hooks/useSocket';
@@ -133,7 +134,7 @@ export function LiveBookingPage() {
             <p style={{ color: 'var(--muted)', fontSize: 14 }}>{booking.venueName}</p>
             <p style={{ fontSize: 14 }}>{booking.addressFormatted}</p>
             <p style={{ fontSize: 14, color: 'var(--muted)' }}>
-              {new Date(booking.scheduledAt).toLocaleString()} · {booking.durationMin} min
+              {formatAppDateTime(booking.scheduledAt)} · {booking.durationMin} min
             </p>
           </div>
         </div>

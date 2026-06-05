@@ -6,6 +6,7 @@ import { AddMoneyModal } from '../components/AddMoneyModal';
 import { NetworkErrorView, showError } from '../components/NetworkError';
 import { ListSkeleton } from '../components/Skeleton';
 import { EmptyState } from '../components/EmptyState';
+import { formatAppDateTime } from '../utils/formatDate';
 
 export function WalletPage() {
   const [wallet, setWallet] = useState<WalletData | null>(null);
@@ -59,7 +60,7 @@ export function WalletPage() {
               <div>
                 <strong style={{ fontSize: 14 }}>{t.description}</strong>
                 <p style={{ margin: '4px 0 0', fontSize: 12, color: 'var(--muted)' }}>
-                  {new Date(t.createdAt).toLocaleString()}
+                  {formatAppDateTime(t.createdAt)}
                 </p>
               </div>
               <span style={{ fontWeight: 800, color: t.type === 'credit' ? 'var(--success)' : 'var(--text)' }}>

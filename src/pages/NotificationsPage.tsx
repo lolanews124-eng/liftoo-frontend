@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { customerApi } from '../api/client';
 import type { Notification } from '../api/types';
 import { NetworkErrorView, showError } from '../components/NetworkError';
+import { formatAppDateTime } from '../utils/formatDate';
 
 export function NotificationsPage() {
   const [items, setItems] = useState<Notification[]>([]);
@@ -123,7 +124,7 @@ export function NotificationsPage() {
             <strong style={{ fontSize: 15 }}>{n.title}</strong>
             <p style={{ margin: '6px 0 0', fontSize: 14, color: 'var(--muted)' }}>{n.body}</p>
             <p style={{ margin: '8px 0 0', fontSize: 12, color: 'var(--muted)' }}>
-              {new Date(n.createdAt).toLocaleString()}
+              {formatAppDateTime(n.createdAt)}
             </p>
           </div>
           <button

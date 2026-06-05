@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import type { Booking } from '../api/types';
 import { assistantCode, assistantSummary } from '../utils/assistantDisplay';
+import { formatAppDateTime } from '../utils/formatDate';
 import {
   BOOKING_STATUS_LABEL,
   bookingNextStep,
@@ -53,7 +54,7 @@ export function BookingDetailModal({ booking, onClose }: Props) {
         <div className="modal-body">
           <div className="detail-row">
             <span className="detail-label">Scheduled</span>
-            <span>{new Date(booking.scheduledAt).toLocaleString()}</span>
+            <span>{formatAppDateTime(booking.scheduledAt)}</span>
           </div>
           <div className="detail-row">
             <span className="detail-label">Duration</span>

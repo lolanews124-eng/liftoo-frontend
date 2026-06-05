@@ -5,6 +5,7 @@ import type { Booking } from '../api/types';
 import { BOOKING_STATUS_LABEL, isPaymentPending } from '../api/types';
 import { BookingDetailModal } from '../components/BookingDetailModal';
 import { assistantSummary } from '../utils/assistantDisplay';
+import { formatAppDateTime } from '../utils/formatDate';
 import { NetworkErrorView, showError } from '../components/NetworkError';
 import { ListSkeleton } from '../components/Skeleton';
 import { EmptyState } from '../components/EmptyState';
@@ -73,7 +74,7 @@ export function BookingsPage() {
               </div>
               <p style={{ margin: '8px 0', color: 'var(--muted)', fontSize: 14 }}>{b.venueName}</p>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
-                <span>{new Date(b.scheduledAt).toLocaleString()}</span>
+                <span>{formatAppDateTime(b.scheduledAt)}</span>
                 <strong>₹{b.totalAmount}</strong>
               </div>
               {b.assistant?.name && (
