@@ -2289,12 +2289,11 @@
   text-decoration: underline;
 }
 
-.site-breadcrumbs-wrap {
-  padding-top: 12px;
-  padding-bottom: 0;
-}
 .site-breadcrumbs {
-  margin: 0;
+  margin: 0 0 16px;
+}
+.page-hero-inner .site-breadcrumbs {
+  margin-bottom: 20px;
 }
 .site-breadcrumbs-list {
   display: flex;
