@@ -52,7 +52,7 @@ export function buildWebPageSchema(meta: PageSeoMeta, path: string) {
     },
     speakable: {
       '@type': 'SpeakableSpecification',
-      cssSelector: ['h1', '.page-hero-lead', '.site-seo-content-card p', '.site-faq-card h3', '.site-faq-card p'],
+      cssSelector: ['h1', '.page-hero-lead', '.site-seo-content-card p', '.site-faq-trigger span', '.site-faq-panel-inner p'],
     },
   };
 }
