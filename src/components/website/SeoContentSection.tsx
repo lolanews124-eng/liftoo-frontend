@@ -65,7 +65,7 @@ export function SeoContentSection({ variant = 'home' }: SeoContentSectionProps) 
               {' · '}
               <Link to="/how-it-works">How it works</Link>
               {' · '}
-              <Link to="/for-assistants">Become an assistant</Link>
+              <Link to="/become-assistant">Become an assistant</Link>
             </p>
           )}
         </div>

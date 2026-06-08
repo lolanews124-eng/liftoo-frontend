@@ -77,12 +77,12 @@ export const PAGE_SEO: Record<string, PageSeoMeta> = {
     keywords: `${BASE_KEYWORDS}, about Liftoo, Dleaftech`,
     path: '/about',
   },
-  '/for-assistants': {
-    title: 'Become a Liftoo Assistant in Patna — Earn Helping Shoppers',
+  '/become-assistant': {
+    title: 'Become a Liftoo Assistant in Patna — Apply Online',
     description:
-      'Join Liftoo as a verified shopping assistant in Patna, Bihar. Flexible hours, fair earnings and jobs near you. Download the app and complete KYC to start.',
-    keywords: `${BASE_KEYWORDS}, Liftoo assistant jobs Patna, earn money shopping help`,
-    path: '/for-assistants',
+      'Apply to become a Liftoo shopping assistant in Patna, Bihar. Flexible hours, fair earnings and jobs near you. Quick apply form — download the app and complete KYC to start.',
+    keywords: `${BASE_KEYWORDS}, Liftoo assistant jobs Patna, earn money shopping help, become assistant Patna`,
+    path: '/become-assistant',
   },
   '/contact': {
     title: 'Contact Liftoo — Patna, Bihar, India',
@@ -163,7 +163,7 @@ const PAGE_FAQ_EXTRAS: Record<string, FaqItem[]> = {
         'Yes. Liftoo supports major Patna malls and markets including P&M Mall, City Centre Mall, Boring Road, Fraser Road and more — select your venue in the app.',
     },
   ],
-  '/for-assistants': [
+  '/become-assistant': [
     {
       question: 'How do I become a Liftoo assistant in Patna?',
       answer:
@@ -242,7 +242,7 @@ export const MARKETING_PATHS = [
   '/how-it-works',
   '/services',
   '/about',
-  '/for-assistants',
+  '/become-assistant',
   '/contact',
 ] as const;
 
@@ -251,7 +251,7 @@ export const SITEMAP_PATHS = [
   '/how-it-works',
   '/services',
   '/about',
-  '/for-assistants',
+  '/become-assistant',
   '/contact',
   '/legal',
   '/legal/privacy-policy',
@@ -268,7 +268,7 @@ const BREADCRUMB_LABELS: Record<string, string> = {
   '/how-it-works': 'How it works',
   '/services': 'Services',
   '/about': 'About',
-  '/for-assistants': 'For assistants',
+  '/become-assistant': 'Become an Assistant',
   '/contact': 'Contact',
   '/legal': 'Legal',
 };

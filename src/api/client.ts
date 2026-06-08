@@ -286,3 +286,17 @@ export const customerApi = {
       body: JSON.stringify({ subject, message, bookingId }),
     }),
 };
+
+export const websiteApi = {
+  submitContact: (body: { name: string; email: string; phone: string; message: string }) =>
+    api<{ id: string; message: string }>('/website/contact', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+
+  applyAsAssistant: (body: { name: string; phone: string; email?: string; message?: string }) =>
+    api<{ id: string; message: string }>('/website/assistant-apply', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+};

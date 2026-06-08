@@ -2718,6 +2718,118 @@
   }
 }
 
+.site-form-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+.site-form-alert svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.site-form-alert--success {
+  background: rgba(34, 197, 94, 0.12);
+  color: #166534;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+.site-form-alert--error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #991b1b;
+  border: 1px solid rgba(239, 68, 68, 0.22);
+}
+
+.site-assistant-perks {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+@media (min-width: 640px) {
+  .site-assistant-perks {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .site-assistant-perks {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.site-assistant-perk {
+  background: var(--site-surface);
+  border: 1px solid var(--site-border);
+  border-radius: 16px;
+  padding: 20px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.site-assistant-perk:hover {
+  border-color: rgba(236, 72, 153, 0.35);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+.site-assistant-perk-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(99, 102, 241, 0.12));
+  color: var(--site-pink);
+  margin-bottom: 14px;
+}
+.site-assistant-perk-icon svg {
+  width: 22px;
+  height: 22px;
+}
+.site-assistant-perk h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--site-navy);
+}
+.site-assistant-perk p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--site-muted);
+  line-height: 1.55;
+}
+
+.site-assistant-apply-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: start;
+}
+@media (min-width: 960px) {
+  .site-assistant-apply-layout {
+    grid-template-columns: 1fr 1.1fr;
+  }
+}
+.site-assistant-steps {
+  padding: 24px;
+}
+.site-assistant-steps h2 {
+  margin: 0 0 16px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--site-navy);
+}
+.site-assistant-steps ol {
+  margin: 0 0 20px;
+  padding-left: 20px;
+  line-height: 1.85;
+  color: var(--site-muted);
+}
+.site-assistant-apply-form {
+  margin-top: 0;
+}
+
 .site-page-actions {
   display: flex;
   flex-wrap: wrap;

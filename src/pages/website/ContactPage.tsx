@@ -1,9 +1,11 @@
-import { Mail, MapPin, MessageCircle, Send } from 'lucide-react';
+import { useState } from 'react';
+import { CheckCircle2, Mail, MapPin, MessageCircle, Send } from 'lucide-react';
 import { PlayStoreCta } from '../../components/website/PlayStoreCta';
 import { PageHero } from '../../components/website/PageHero';
 import { SeoContentSection } from '../../components/website/SeoContentSection';
 import { SeoFaqSection } from '../../components/website/SeoFaqSection';
 import { SITE_INFO } from '../../config/siteInfo';
+import { websiteApi, ApiError } from '../../api/client';
 
 const CONTACT_ITEMS = [
   {
@@ -28,7 +30,49 @@ const CONTACT_ITEMS = [
   },
 ] as const;
 
+function normalizePhone(value: string) {
+  return value.replace(/\D/g, '').slice(0, 10);
+}
+
 export function ContactPage() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [message, setMessage] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFeedback(null);
+
+    const cleanPhone = normalizePhone(phone);
+    if (cleanPhone.length !== 10) {
+      setFeedback({ type: 'error', text: 'Please enter a valid 10-digit mobile number.' });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const res = await websiteApi.submitContact({
+        name: name.trim(),
+        email: email.trim(),
+        phone: cleanPhone,
+        message: message.trim(),
+      });
+      setFeedback({ type: 'success', text: res.message });
+      setName('');
+      setEmail('');
+      setPhone('');
+      setMessage('');
+    } catch (err) {
+      const text = err instanceof ApiError ? err.message : 'Something went wrong. Please try again.';
+      setFeedback({ type: 'error', text });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <>
       <PageHero
@@ -69,13 +113,7 @@ export function ContactPage() {
               ))}
             </div>
 
-            <form
-              className="site-contact-form-v2"
-              onSubmit={(e) => {
-                e.preventDefault();
-                window.location.href = `mailto:${SITE_INFO.email}?subject=Liftoo%20inquiry`;
-              }}
-            >
+            <form className="site-contact-form-v2" onSubmit={handleSubmit}>
               <div className="site-contact-form-head">
                 <div className="site-contact-form-icon" aria-hidden>
                   <Send />
@@ -85,22 +123,69 @@ export function ContactPage() {
                   <p>Tell us how we can help — we&apos;ll get back to you from {SITE_INFO.displayAddress}.</p>
                 </div>
               </div>
+
+              {feedback && (
+                <div
+                  className={`site-form-alert site-form-alert--${feedback.type}`}
+                  role={feedback.type === 'error' ? 'alert' : 'status'}
+                >
+                  {feedback.type === 'success' && <CheckCircle2 aria-hidden />}
+                  <span>{feedback.text}</span>
+                </div>
+              )}
+
               <div className="site-form-row">
                 <label className="field">
                   <span>Name</span>
-                  <input type="text" required placeholder="Your name" />
+                  <input
+                    type="text"
+                    required
+                    placeholder="Your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    maxLength={120}
+                  />
                 </label>
                 <label className="field">
                   <span>Email</span>
-                  <input type="email" required placeholder="you@example.com" />
+                  <input
+                    type="email"
+                    required
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </label>
               </div>
               <label className="field">
-                <span>Message</span>
-                <textarea rows={5} required placeholder="How can we help?" />
+                <span>Mobile number</span>
+                <input
+                  type="tel"
+                  required
+                  inputMode="numeric"
+                  placeholder="10-digit mobile number"
+                  value={phone}
+                  onChange={(e) => setPhone(normalizePhone(e.target.value))}
+                  maxLength={10}
+                />
               </label>
-              <button type="submit" className="site-btn-primary site-contact-submit">
-                Send via email
+              <label className="field">
+                <span>Message</span>
+                <textarea
+                  rows={5}
+                  required
+                  placeholder="How can we help?"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  maxLength={2000}
+                />
+              </label>
+              <button
+                type="submit"
+                className="site-btn-primary site-contact-submit"
+                disabled={submitting}
+              >
+                {submitting ? 'Sending…' : 'Send message'}
               </button>
             </form>
           </div>

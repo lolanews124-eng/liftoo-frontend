@@ -27,7 +27,7 @@ import { PublicEntryPage } from './pages/website/PublicEntryPage';
 import { HowItWorksPage } from './pages/website/HowItWorksPage';
 import { ServicesPage } from './pages/website/ServicesPage';
 import { AboutPage } from './pages/website/AboutPage';
-import { ForAssistantsPage } from './pages/website/ForAssistantsPage';
+import { BecomeAssistantPage } from './pages/website/BecomeAssistantPage';
 import { ContactPage } from './pages/website/ContactPage';
 import { WEB_AUTH_ENABLED } from './config/features';
 
@@ -75,7 +75,8 @@ export default function App() {
         <Route path="how-it-works" element={<HowItWorksPage />} />
         <Route path="services" element={<ServicesPage />} />
         <Route path="about" element={<AboutPage />} />
-        <Route path="for-assistants" element={<ForAssistantsPage />} />
+        <Route path="become-assistant" element={<BecomeAssistantPage />} />
+        <Route path="for-assistants" element={<Navigate to="/become-assistant" replace />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="legal" element={<LegalIndexPage />} />
         <Route path="legal/:slug" element={<LegalPolicyPage />} />

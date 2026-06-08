@@ -11,7 +11,7 @@ const pages = [
   { path: '/how-it-works', priority: '0.9', changefreq: 'monthly' },
   { path: '/services', priority: '0.9', changefreq: 'weekly' },
   { path: '/about', priority: '0.8', changefreq: 'monthly' },
-  { path: '/for-assistants', priority: '0.8', changefreq: 'monthly' },
+  { path: '/become-assistant', priority: '0.8', changefreq: 'monthly' },
   { path: '/contact', priority: '0.7', changefreq: 'monthly' },
   { path: '/legal', priority: '0.4', changefreq: 'yearly' },
   { path: '/legal/privacy-policy', priority: '0.3', changefreq: 'yearly' },

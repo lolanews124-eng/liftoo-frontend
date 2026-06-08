@@ -52,7 +52,7 @@ P&M Mall, City Centre Mall, Unity One Mall, Maurya Lok, Patna One, Boring Road M
 - Services: https://liftoo.in/services
 - How it works: https://liftoo.in/how-it-works
 - About: https://liftoo.in/about
-- For assistants: https://liftoo.in/for-assistants
+- Become an assistant: https://liftoo.in/become-assistant
 - Contact: https://liftoo.in/contact
 - Google Play: https://play.google.com/store/apps/details?id=com.liftoo.liftoo_mobile
 - Sitemap: https://liftoo.in/sitemap.xml

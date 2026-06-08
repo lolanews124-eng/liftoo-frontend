@@ -34,7 +34,7 @@ export function WebsiteFooter() {
             <div>
               <h4>Company</h4>
               <Link to="/about">About</Link>
-              <Link to="/for-assistants">For assistants</Link>
+              <Link to="/become-assistant">Become an Assistant</Link>
               <Link to="/contact">Contact</Link>
             </div>
             <div>
