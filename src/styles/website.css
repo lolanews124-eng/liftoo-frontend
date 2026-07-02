@@ -13,6 +13,9 @@
   --site-violet: #7c3aed;
   --site-text: #0f172a;
   --site-muted: #64748b;
+  --site-surface: #ffffff;
+  --site-border: #e2e8f0;
+  --site-ring: rgba(255, 0, 100, 0.38);
   --site-glass: rgba(255, 255, 255, 0.72);
   --site-radius: 20px;
   --site-radius-lg: 28px;
@@ -37,6 +40,26 @@
 }
 
 .site-main { flex: 1; }
+
+/* ─── Accessible focus states ─── */
+.site-shell a:focus-visible,
+.site-shell button:focus-visible,
+.site-shell [role="button"]:focus-visible {
+  outline: 3px solid var(--site-ring);
+  outline-offset: 3px;
+  border-radius: 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-shell *,
+  .site-shell *::before,
+  .site-shell *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 
 .site-container {
   width: 100%;
